@@ -1,0 +1,22 @@
+package com.jgeniselli.desafio.burgers.data
+
+import org.junit.Assert.*
+import org.junit.Test
+
+class PercentageDiscountCalculatorTest {
+
+    @Test
+    fun calculatePercentage() {
+        val calculator = makeCalculator(10.0)
+        assertEquals(9.0, calculator.calculateDiscount(10.0), 0.0001)
+    }
+
+    @Test(expected = InvalidPercentageException::class)
+    fun blockInstantiationOnInvalidPercentage() {
+        makeCalculator(-10.0)
+    }
+
+    private fun makeCalculator(percentage: Double): PercentageDiscountCalculator =
+            PercentageDiscountCalculator.makeForPercentage(percentage)
+
+}

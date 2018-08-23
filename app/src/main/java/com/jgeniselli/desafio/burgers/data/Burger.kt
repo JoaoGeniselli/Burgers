@@ -1,6 +1,5 @@
 package com.jgeniselli.desafio.burgers.data
 
-import java.util.Collections.list
 import java.util.Collections.unmodifiableList
 
 class Burger {
