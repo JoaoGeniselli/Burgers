@@ -1,15 +1,15 @@
 package com.jgeniselli.desafio.burgers.data
 
-class Ingredient private constructor(val price: Double) {
+class Ingredient private constructor(val id: Int, val price: Double, val name: String) {
 
     companion object {
 
-        fun makeForPrice(price: Double): Ingredient {
+        fun makeForPrice(id: Int, price: Double, name: String): Ingredient {
             ensureValidPrice(price)
-            return Ingredient(price)
+            return Ingredient(id, price, name)
         }
 
-        fun ensureValidPrice(price: Double) {
+        private fun ensureValidPrice(price: Double) {
             if (price < 0.0) throw InvalidPriceException()
         }
     }

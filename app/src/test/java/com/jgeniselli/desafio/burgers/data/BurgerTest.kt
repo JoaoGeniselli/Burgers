@@ -5,7 +5,6 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
 import org.mockito.internal.verification.Times
-import java.util.*
 import java.util.Collections.singletonList
 
 class BurgerTest {
@@ -14,7 +13,7 @@ class BurgerTest {
 
     @Before
     fun createBurger() {
-        burger = Burger()
+        burger = Burger(1, "Test", "")
     }
 
     @Test

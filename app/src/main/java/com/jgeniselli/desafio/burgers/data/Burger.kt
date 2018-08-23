@@ -2,13 +2,11 @@ package com.jgeniselli.desafio.burgers.data
 
 import java.util.Collections.unmodifiableList
 
-class Burger {
+class Burger(val id: Int, val name: String, val imageUrl: String) {
 
-    val id = 0
-    val name = ""
     private val ingredients = HashMap<Ingredient, Int>()
-    val promotions = HashSet<Promotion>()
-    val ingredientObservers = HashSet<IngredientChangesListener>()
+    private val promotions = HashSet<Promotion>()
+    private val ingredientObservers = HashSet<IngredientChangesListener>()
 
     fun addPromotion(promotion: Promotion) {
         promotions.add(promotion)
@@ -81,6 +79,12 @@ class Burger {
 
     fun removeIngredientChangesListener(listener: IngredientChangesListener) {
         ingredientObservers.remove(listener)
+    }
+
+    companion object {
+        fun valueOf(burgerData: BurgerData): Burger {
+            return Burger(burgerData.id, burgerData.name, burgerData.image)
+        }
     }
 }
 

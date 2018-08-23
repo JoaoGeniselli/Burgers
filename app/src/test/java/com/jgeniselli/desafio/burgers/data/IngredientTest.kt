@@ -20,6 +20,6 @@ class IngredientTest {
         makeIngredient(-0.5)
     }
 
-    fun makeIngredient(price: Double) = Ingredient.makeForPrice(price)
+    fun makeIngredient(price: Double) = Ingredient.makeForPrice(1, price, "Test")
 
 }
