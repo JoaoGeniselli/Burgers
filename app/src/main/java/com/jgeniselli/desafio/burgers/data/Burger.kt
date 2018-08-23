@@ -1,5 +1,6 @@
 package com.jgeniselli.desafio.burgers.data
 
+import java.util.Collections.list
 import java.util.Collections.unmodifiableList
 
 class Burger {
@@ -8,6 +9,7 @@ class Burger {
     val name = ""
     private val ingredients = HashMap<Ingredient, Int>()
     val promotions = HashSet<Promotion>()
+    val ingredientObservers = HashSet<IngredientChangesListener>()
 
     fun addPromotion(promotion: Promotion) {
         promotions.add(promotion)
@@ -20,6 +22,13 @@ class Burger {
     fun addIngredient(ingredient: Ingredient, amount: Int) {
         if (amount > 0)
             ingredients[ingredient] = amount
+        notifyIngredientChange()
+    }
+
+    private fun notifyIngredientChange() {
+        ingredientObservers.forEach {
+            it.onIngredientsChanged(this)
+        }
     }
 
     fun removeIngredient(ingredient: Ingredient, amountToRemove: Int) {
@@ -28,6 +37,7 @@ class Burger {
             val adjustedAmount = minOf(amountToRemove, currentAmount)
             ingredients[ingredient] = currentAmount.minus(adjustedAmount)
             clearIngredientIfNeeded(ingredient)
+            notifyIngredientChange()
         }
     }
 
@@ -66,6 +76,17 @@ class Burger {
         if (ingredients[ingredient] == 0)
             ingredients.remove(ingredient)
     }
+
+    fun addIngredientChangesListener(listener: IngredientChangesListener) =
+            ingredientObservers.add(listener)
+
+    fun removeIngredientChangesListener(listener: IngredientChangesListener) {
+        ingredientObservers.remove(listener)
+    }
+}
+
+interface IngredientChangesListener {
+    fun onIngredientsChanged(burger: Burger)
 }
 
 class Promotion {

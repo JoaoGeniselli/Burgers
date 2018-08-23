@@ -225,7 +225,7 @@ class BurgerTest {
         with(burger) {
             val ingredient = makeIngredient(1.50)
             val ingredients = singletonList(ingredient)
-            var promotion = makePromotion(1.0, ingredients)
+            val promotion = makePromotion(1.0, ingredients)
             addIngredient(ingredient, 3)
             addPromotion(promotion)
             assertEquals(3.50, getPrice(), 0.001)
@@ -309,6 +309,56 @@ class BurgerTest {
         }
     }
 
+    @Test
+    fun notifyAddToObserver() {
+        with(burger) {
+            val listener = makeIngredientsListener()
+            val ingredient = makeIngredient(1.50)
+            addIngredientChangesListener(listener)
+            addIngredient(ingredient, 3)
+            verify(listener, Times(1)).onIngredientsChanged(burger)
+        }
+    }
+
+    @Test
+    fun notifyRemoveToObserver() {
+        with(burger) {
+            val listener = makeIngredientsListener()
+            val ingredient = makeIngredient(1.50)
+            addIngredientChangesListener(listener)
+            addIngredient(ingredient, 3)
+            removeIngredient(ingredient, 2)
+            verify(listener, Times(2)).onIngredientsChanged(burger)
+        }
+    }
+
+    @Test
+    fun notifyToManyObservers() {
+        with(burger) {
+            val listener1 = makeIngredientsListener()
+            val listener2 = makeIngredientsListener()
+            val ingredient = makeIngredient(1.50)
+            addIngredientChangesListener(listener1)
+            addIngredientChangesListener(listener2)
+            addIngredient(ingredient, 3)
+            removeIngredient(ingredient, 1)
+            verify(listener1, Times(2)).onIngredientsChanged(burger)
+            verify(listener2, Times(2)).onIngredientsChanged(burger)
+        }
+    }
+
+    @Test
+    fun updateNotificationsWhenRemovingObservers() {
+        with(burger) {
+            val listener1 = makeIngredientsListener()
+            val ingredient = makeIngredient(1.50)
+            addIngredientChangesListener(listener1)
+            removeIngredientChangesListener(listener1)
+            addIngredient(ingredient, 3)
+            verify(listener1, Times(0)).onIngredientsChanged(burger)
+        }
+    }
+
     private fun makeIngredient(): Ingredient = makeIngredient(10.0)
 
     private fun makeIngredient(price: Double): Ingredient {
@@ -321,5 +371,9 @@ class BurgerTest {
         val mock = mock(Promotion::class.java)
         `when`(mock.getDiscountFor(ingredients)).thenReturn(discount)
         return mock
+    }
+
+    private fun makeIngredientsListener(): IngredientChangesListener {
+        return mock(IngredientChangesListener::class.java)
     }
 }
