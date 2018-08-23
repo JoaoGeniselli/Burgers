@@ -68,8 +68,6 @@ class Burger {
     }
 }
 
-class Ingredient(val price: Double)
-
 class Promotion {
     fun getId() = 0
     fun getDiscountFor(ingredients: List<Ingredient>) = 0.0
