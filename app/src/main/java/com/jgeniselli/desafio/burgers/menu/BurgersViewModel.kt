@@ -4,6 +4,8 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.jgeniselli.desafio.burgers.commons.RetrofitFactory
 import com.jgeniselli.desafio.burgers.data.Burger
+import com.jgeniselli.desafio.burgers.data.source.BurgersDataSource
+import com.jgeniselli.desafio.burgers.data.source.BurgersDataSourceCacheProxy
 import com.jgeniselli.desafio.burgers.data.source.BurgersService
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -14,13 +16,15 @@ class BurgersViewModel : ViewModel() {
     val loading = MutableLiveData<Boolean>()
     val selectedPosition = MutableLiveData<Int>()
 
+    private var service: BurgersDataSource? = null
+
     fun start() {
-        if (burgers.value != null) return
+        service ?: apply {
+            val api = RetrofitFactory.createAPI()
+            service = BurgersDataSourceCacheProxy(BurgersService(api))
+        }
 
-        val api = RetrofitFactory.createAPI()
-        val service = BurgersService(api)
-
-        service.findAllBurgers()
+        service!!.findAllBurgers()
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { loading.value = true }
                 .doAfterTerminate{ loading.value = false }
