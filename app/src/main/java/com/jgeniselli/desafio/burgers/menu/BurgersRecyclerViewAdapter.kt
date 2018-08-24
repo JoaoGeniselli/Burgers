@@ -10,17 +10,9 @@ import com.jgeniselli.desafio.burgers.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.line_view_burger.view.*
 
-class BurgersRecyclerViewAdapter : RecyclerView.Adapter<BurgersRecyclerViewAdapter.ViewHolder>() {
+class BurgersRecyclerViewAdapter(private val itemClickListener: ItemClickListener) : RecyclerView.Adapter<BurgersRecyclerViewAdapter.ViewHolder>() {
 
     private var values: List<BurgerDescription> = ArrayList()
-
-    private val mOnClickListener: View.OnClickListener
-
-    init {
-        mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as BurgerDescription
-        }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -42,8 +34,10 @@ class BurgersRecyclerViewAdapter : RecyclerView.Adapter<BurgersRecyclerViewAdapt
         }
 
         with(holder.mView) {
-            tag = item
-            setOnClickListener(mOnClickListener)
+            tag = item.getBurgerId()
+            setOnClickListener {
+                itemClickListener.onPositionClicked(holder.layoutPosition)
+            }
         }
     }
 
@@ -59,5 +53,9 @@ class BurgersRecyclerViewAdapter : RecyclerView.Adapter<BurgersRecyclerViewAdapt
         val priceView: TextView = mView.price_view
         val ingredientsView: TextView = mView.ingredients_view
         val imageView: ImageView = mView.icon_view
+    }
+
+    interface ItemClickListener {
+        fun onPositionClicked(position: Int)
     }
 }

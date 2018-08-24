@@ -6,6 +6,8 @@ import java.util.*
 
 class BurgerToDescriptionAdapter(private val burger: Burger) : BurgerDescription {
 
+    override fun getBurgerId() = burger.id
+
     override fun getName(): String = burger.name
 
     override fun getImageUrl(): String = burger.imageUrl

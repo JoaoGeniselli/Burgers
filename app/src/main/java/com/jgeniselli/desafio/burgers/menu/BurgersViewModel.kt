@@ -9,8 +9,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 
 class BurgersViewModel : ViewModel() {
 
-    val burgers: MutableLiveData<List<Burger>> = MutableLiveData()
-    val error: MutableLiveData<String> = MutableLiveData()
+    val burgers = MutableLiveData<List<Burger>>()
+    val error = MutableLiveData<String>()
+    val selectedPosition = MutableLiveData<Int>()
 
     fun start() {
         if (burgers.value != null) return

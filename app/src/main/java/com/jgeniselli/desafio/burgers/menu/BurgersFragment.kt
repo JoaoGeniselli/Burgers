@@ -7,24 +7,26 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.jgeniselli.desafio.burgers.R
-import com.jgeniselli.desafio.burgers.commons.ItemOffsetDecoration
 import com.jgeniselli.desafio.burgers.data.Burger
 
-class BurgersFragment : Fragment() {
+class BurgersFragment : Fragment(), BurgersRecyclerViewAdapter.ItemClickListener {
 
-    var adapter: BurgersRecyclerViewAdapter = BurgersRecyclerViewAdapter()
+    var adapter: BurgersRecyclerViewAdapter = BurgersRecyclerViewAdapter(this)
+    private lateinit var viewModel: BurgersViewModel
+
+    override fun onPositionClicked(position: Int) {
+        viewModel.selectedPosition.value = position
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_burgers, container, false)
-        val viewModel = ViewModelProviders.of(activity!!).get(BurgersViewModel::class.java)
+        viewModel = ViewModelProviders.of(activity!!).get(BurgersViewModel::class.java)
         observeBurgers(viewModel)
         observeError(viewModel)
         setupRecycler(view)
