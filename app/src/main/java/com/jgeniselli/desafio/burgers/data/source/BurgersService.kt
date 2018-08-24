@@ -15,6 +15,8 @@ class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
                 getIngredients(burgers).doOnComplete({
                     emitter.onSuccess(burgers)
                 }).subscribe()
+            }, {
+                emitter.onError(it)
             })
         }
     }

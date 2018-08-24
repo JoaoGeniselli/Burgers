@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.jgeniselli.desafio.burgers.R
+import com.jgeniselli.desafio.burgers.commons.ItemOffsetDecoration
 import com.jgeniselli.desafio.burgers.data.Burger
 
 class BurgersFragment : Fragment() {

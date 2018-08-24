@@ -6,6 +6,7 @@
     android:name="com.jgeniselli.desafio.burgers.menu.MenuFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutManager="LinearLayoutManager"
+    android:layout_marginStart="@dimen/recycler_default_margin"
+    android:layout_marginEnd="@dimen/recycler_default_margin"
     tools:context=".menu.BurgersFragment"
-    tools:listitem="@layout/fragment_menu" />
+    tools:listitem="@layout/line_view_burger" />

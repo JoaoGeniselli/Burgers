@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.jgeniselli.desafio.burgers.R
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_menu.view.*
+import kotlinx.android.synthetic.main.line_view_burger.view.*
 
 class BurgersRecyclerViewAdapter : RecyclerView.Adapter<BurgersRecyclerViewAdapter.ViewHolder>() {
 
@@ -24,7 +24,7 @@ class BurgersRecyclerViewAdapter : RecyclerView.Adapter<BurgersRecyclerViewAdapt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.fragment_menu, parent, false)
+                .inflate(R.layout.line_view_burger, parent, false)
         return ViewHolder(view)
     }
 
@@ -37,7 +37,6 @@ class BurgersRecyclerViewAdapter : RecyclerView.Adapter<BurgersRecyclerViewAdapt
             Picasso.get()
                     .load(item.getImageUrl())
                     .placeholder(R.drawable.ic_local_dining_black_24dp)
-                    .fit()
                     .noFade()
                     .into(imageView)
         }
