@@ -31,5 +31,6 @@ class BurgersActivity : AppCompatActivity() {
     private fun redirectToSelectedItem(position: Int) {
         val intent = Intent(this, PromotionsActivity::class.java)
         startActivity(intent)
+        viewModel.selectedPosition.value = null
     }
 }
