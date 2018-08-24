@@ -11,17 +11,11 @@ class BurgerToDescriptionAdapter(private val burger: Burger) : BurgerDescription
     override fun getImageUrl(): String = burger.imageUrl
 
     override fun getIngredientNames(): String {
-        val ingredients = burger.getIngredients()
-        var content = ""
-        ingredients.forEachIndexed { index, ingredient ->
-            run {
-                content += ingredient.name
-                if (index > 0 && index < ingredients.lastIndex) {
-                    content += ", "
-                }
-            }
-        }
-        return content
+        val names = ArrayList<String>()
+        burger.getIngredients()
+                .sortedBy { it.id }
+                .forEach { names.add(it.name) }
+        return names.joinToString(separator = ", ")
     }
 
     override fun getFormattedPrice(): String {
