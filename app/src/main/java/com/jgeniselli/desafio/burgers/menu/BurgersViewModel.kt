@@ -11,6 +11,7 @@ class BurgersViewModel : ViewModel() {
 
     val burgers = MutableLiveData<List<Burger>>()
     val error = MutableLiveData<String>()
+    val loading = MutableLiveData<Boolean>()
     val selectedPosition = MutableLiveData<Int>()
 
     fun start() {
@@ -21,6 +22,8 @@ class BurgersViewModel : ViewModel() {
 
         service.findAllBurgers()
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { loading.value = true }
+                .doAfterTerminate{ loading.value = false }
                 .subscribe({ burgers.value = it }, { error.value = it.message })
     }
 }

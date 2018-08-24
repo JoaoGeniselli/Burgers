@@ -4,19 +4,18 @@ import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jgeniselli.desafio.burgers.R
 import com.jgeniselli.desafio.burgers.data.Burger
+import kotlinx.android.synthetic.main.fragment_burgers.*
 
 class BurgersFragment : Fragment(), BurgersRecyclerViewAdapter.ItemClickListener {
 
-    var adapter: BurgersRecyclerViewAdapter = BurgersRecyclerViewAdapter(this)
+    private var adapter: BurgersRecyclerViewAdapter = BurgersRecyclerViewAdapter(this)
     private lateinit var viewModel: BurgersViewModel
 
     override fun onPositionClicked(position: Int) {
@@ -25,33 +24,45 @@ class BurgersFragment : Fragment(), BurgersRecyclerViewAdapter.ItemClickListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_burgers, container, false)
+        return inflater.inflate(R.layout.fragment_burgers, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!).get(BurgersViewModel::class.java)
-        observeBurgers(viewModel)
-        observeError(viewModel)
-        setupRecycler(view)
+        observeBurgers()
+        observeError()
+        observeLoading()
+        setupRecycler()
         viewModel.start()
-        return view
     }
 
-    private fun setupRecycler(view: View?) {
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = GridLayoutManager(context, 2)
-                adapter = this@BurgersFragment.adapter
-            }
-        }
-    }
-
-    private fun observeError(viewModel: BurgersViewModel) {
-        viewModel.error.observe(this, Observer {
-            if (it != null) {
-                displayDialog(it)
+    private fun observeLoading() {
+        viewModel.loading.observe(this, Observer {
+            progress_bar.visibility = when {
+                (it == null || !it) -> View.GONE
+                else -> View.VISIBLE
             }
         })
     }
 
-    private fun observeBurgers(viewModel: BurgersViewModel) {
+    private fun setupRecycler() {
+        with(recycler_view) {
+            layoutManager = GridLayoutManager(context, 2)
+            adapter = this@BurgersFragment.adapter
+        }
+    }
+
+    private fun observeError() {
+        viewModel.error.observe(this, Observer {
+            if (it != null) {
+                displayDialog(it)
+                viewModel.error.value = null
+            }
+        })
+    }
+
+    private fun observeBurgers() {
         viewModel.burgers.observe(this, Observer {
             if (it != null) {
                 updateContent(it)
@@ -60,11 +71,8 @@ class BurgersFragment : Fragment(), BurgersRecyclerViewAdapter.ItemClickListener
     }
 
     private fun updateContent(burgers: List<Burger>) {
-        val mainHandler = Handler(context?.mainLooper)
-        mainHandler.post({
-            val descriptions = createDescriptions(burgers)
-            adapter.updateContent(descriptions)
-        })
+        val descriptions = createDescriptions(burgers)
+        adapter.updateContent(descriptions)
     }
 
     private fun createDescriptions(burgers: List<Burger>): List<BurgerDescription> {
