@@ -7,9 +7,12 @@ import retrofit2.http.Path
 
 interface BurgersAPI {
 
-    @GET("api/lanche")
+    @GET("lanche")
     fun getBurgers(): Single<List<BurgerData>>
 
-    @GET("api/ingrediente/de/{id}")
+    @GET("ingrediente/de/{id}")
     fun getIngredientsForBurger(@Path("id") burgerId: Int): Single<List<IngredientData>>
+
+    @GET("promocao")
+    fun getPromotions(): Single<List<PromotionData>>
 }

@@ -3,4 +3,6 @@
     <string name="ingredients">Ingredientes:</string>
     <string name="warning">Atenção</string>
     <string name="ok">OK</string>
+    <string name="burgers">Lanches</string>
+    <string name="promotions">Promoções</string>
 </resources>

@@ -2,6 +2,7 @@ package com.jgeniselli.desafio.burgers.data.source
 
 import com.jgeniselli.desafio.burgers.data.Burger
 import com.jgeniselli.desafio.burgers.data.Ingredient
+import com.jgeniselli.desafio.burgers.data.Promotion
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
@@ -12,13 +13,19 @@ class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
     override fun findAllBurgers(): Single<List<Burger>> {
         return Single.create { emitter: SingleEmitter<List<Burger>> ->
             makeBurgersStream().subscribe({ burgers ->
-                getIngredients(burgers).doOnComplete({
+                getIngredients(burgers).doOnComplete {
                     emitter.onSuccess(burgers)
-                }).subscribe()
+                }.subscribe()
             }, {
                 emitter.onError(it)
             })
         }
+    }
+
+    override fun findAllPromotions(): Single<List<Promotion>> {
+        return api.getPromotions()
+                .subscribeOn(Schedulers.io())
+                .map { Promotion.valuesOf(it) }
     }
 
     private fun makeBurgersStream(): Single<List<Burger>> =
@@ -50,4 +57,3 @@ class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
 
 }
 
-data class IngredientData(val id: Int, val name: String, val price: Double, val image: String)

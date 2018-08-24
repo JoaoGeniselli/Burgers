@@ -12,13 +12,13 @@ class RetrofitFactory {
         var retrofitInstance: Retrofit? = null
 
         private fun getDefaultRetrofit(): Retrofit {
-            retrofitInstance ?: synchronized(this, {
+            retrofitInstance ?: synchronized(this) {
                 retrofitInstance = Retrofit.Builder()
-                        .baseUrl("http://192.168.0.103:8080")
+                        .baseUrl("http://192.168.0.103:8080/api/")
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()
-            })
+            }
             return retrofitInstance!!
         }
 
