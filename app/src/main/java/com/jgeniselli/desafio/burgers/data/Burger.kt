@@ -1,6 +1,5 @@
 package com.jgeniselli.desafio.burgers.data
 
-import com.jgeniselli.desafio.burgers.data.source.PromotionData
 import java.util.Collections.unmodifiableList
 
 class Burger(val id: Int, val name: String, val imageUrl: String) {
@@ -83,7 +82,7 @@ class Burger(val id: Int, val name: String, val imageUrl: String) {
     }
 
     companion object {
-        fun valueOf(burgerData: BurgerData): Burger {
+        private fun valueOf(burgerData: BurgerData): Burger {
             return Burger(burgerData.id, burgerData.name, burgerData.image)
         }
 
@@ -101,27 +100,3 @@ interface IngredientChangesListener {
     fun onIngredientsChanged(burger: Burger)
 }
 
-class Promotion(val id: Int, val name: String, val description: String, private var discountCalculator: DiscountCalculator?) {
-    fun getDiscountFor(ingredients: List<Ingredient>): Double =
-            discountCalculator?.calculateDiscount(totalPrice(ingredients)) ?: 0.0
-
-    private fun totalPrice(ingredients: List<Ingredient>): Double {
-        var price = 0.0
-        ingredients.forEach { price += it.price }
-        return price
-    }
-
-    companion object {
-        fun valueOf(data: PromotionData) : Promotion {
-            with(data){
-                return Promotion(id, name, description, null)
-            }
-        }
-
-        fun valuesOf(datas: List<PromotionData>) : List<Promotion> {
-            val promotions = ArrayList<Promotion>()
-            datas.forEach { promotions.add(valueOf(it)) }
-            return promotions
-        }
-    }
-}

@@ -29,6 +29,7 @@ class BurgersFragment : Fragment(), BurgersRecyclerViewAdapter.ItemClickListener
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        activity?.title = getString(R.string.burgers)
         viewModel = ViewModelProviders.of(activity!!).get(BurgersViewModel::class.java)
         observeBurgers()
         observeError()

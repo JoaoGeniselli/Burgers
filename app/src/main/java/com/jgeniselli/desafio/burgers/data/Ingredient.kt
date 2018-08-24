@@ -28,6 +28,16 @@ class Ingredient private constructor(val id: Int, val price: Double, val name: S
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Ingredient) return false
+        return (id == other.id)
+    }
+
+    override fun hashCode(): Int {
+        return id
+    }
+
 
 }
 

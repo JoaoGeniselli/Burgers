@@ -20,8 +20,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".details.DetailsActivity" />
-        <activity android:name=".promotions.PromotionsActivity"
-            android:label="@string/promotions"/>
     </application>
 
 </manifest>

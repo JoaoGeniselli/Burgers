@@ -7,6 +7,7 @@ import com.jgeniselli.desafio.burgers.data.Promotion
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSource
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSourceCacheProxy
 import com.jgeniselli.desafio.burgers.data.source.BurgersService
+import com.jgeniselli.desafio.burgers.data.source.PromotionsObserverProxy
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 class PromotionsViewModel : ViewModel() {
@@ -20,7 +21,11 @@ class PromotionsViewModel : ViewModel() {
     fun start() {
         service ?: apply {
             val api = RetrofitFactory.createAPI()
-            service = BurgersDataSourceCacheProxy(BurgersService(api))
+            service = PromotionsObserverProxy(
+                    BurgersDataSourceCacheProxy(
+                            BurgersService(api)
+                    )
+            )
         }
 
         service!!.findAllPromotions()
