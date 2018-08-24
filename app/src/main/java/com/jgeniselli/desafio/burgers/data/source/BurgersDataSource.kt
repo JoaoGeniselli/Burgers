@@ -1,7 +1,8 @@
 package com.jgeniselli.desafio.burgers.data.source
 
 import com.jgeniselli.desafio.burgers.data.Burger
+import io.reactivex.Single
 
-interface BurgersRepository {
-    fun findAllBurgers(): List<Burger>
+interface BurgersDataSource {
+    fun findAllBurgers(): Single<List<Burger>>
 }

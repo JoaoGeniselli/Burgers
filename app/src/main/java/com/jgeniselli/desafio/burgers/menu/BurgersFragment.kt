@@ -1,5 +1,6 @@
 package com.jgeniselli.desafio.burgers.menu
 
+import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -11,44 +12,48 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.jgeniselli.desafio.burgers.R
 import com.jgeniselli.desafio.burgers.data.Burger
-import kotlinx.android.synthetic.main.fragment_menu_list.*
 
-/**
- * A fragment representing a list of Items.
- * Activities containing this fragment MUST implement the
- * [MenuFragment.OnListFragmentInteractionListener] interface.
- */
-class MenuFragment : Fragment() {
-
-    private var columnCount = 2
+class BurgersFragment : Fragment() {
 
     var adapter: BurgersRecyclerViewAdapter = BurgersRecyclerViewAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_burgers, container, false)
+        val viewModel = ViewModelProviders.of(activity!!).get(BurgersViewModel::class.java)
+        observeBurgers(viewModel)
+        observeError(viewModel)
+        setupRecycler(view)
+        viewModel.start()
+        return view
+    }
 
-        val view = inflater.inflate(R.layout.fragment_menu_list, container, false)
+    private fun setupRecycler(view: View?) {
+        if (view is RecyclerView) {
+            with(view) {
+                layoutManager = GridLayoutManager(context, 2)
+                adapter = this@BurgersFragment.adapter
+            }
+        }
+    }
 
-        val viewModel = ViewModelProviders.of(activity!!).get(MenuViewModel::class.java)
+    private fun observeError(viewModel: BurgersViewModel) {
+        viewModel.error.observe(this, Observer {
+            if (it != null) {
+                displayDialog(it)
+            }
+        })
+    }
+
+    private fun observeBurgers(viewModel: BurgersViewModel) {
         viewModel.burgers.observe(this, Observer {
             if (it != null) {
                 updateContent(it)
             }
         })
-
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = this@MenuFragment.adapter
-            }
-        }
-        viewModel.start()
-        return view
     }
 
     private fun updateContent(burgers: List<Burger>) {
@@ -65,5 +70,13 @@ class MenuFragment : Fragment() {
             descriptions.add(BurgerToDescriptionAdapter(it))
         }
         return descriptions
+    }
+
+    private fun displayDialog(message: String) {
+        AlertDialog.Builder(context)
+                .setTitle(R.string.warning)
+                .setMessage(message)
+                .setNeutralButton(R.string.ok, null)
+                .show()
     }
 }

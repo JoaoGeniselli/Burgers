@@ -1,42 +1,51 @@
 package com.jgeniselli.desafio.burgers.data.source
 
 import com.jgeniselli.desafio.burgers.data.Burger
-import com.jgeniselli.desafio.burgers.data.BurgerData
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.jgeniselli.desafio.burgers.data.Ingredient
+import io.reactivex.Flowable
+import io.reactivex.Single
+import io.reactivex.SingleEmitter
+import io.reactivex.schedulers.Schedulers
 
-class BurgersService(val api: BurgersAPI) : BurgersRepository {
+class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
 
-    override fun findAllBurgers(): List<Burger> {
-        val call = api.getBurgers()
-        val dtos = call.execute()
-
-        call.enqueue(callback { response, thorwable ->
-            response?.let {
-                
-            }
-            thorwable?.let {
-                // ação caso o throwable for retornado
-            }
-        })
-
-        return createBurgersFrom(dtos.body())
-    }
-
-    fun <T> callback(fn: (Throwable?, Response<T>?) -> Unit): Callback<T> {
-        return object : Callback<T> {
-            override fun onResponse(call: Call<T>, response: retrofit2.Response<T>) = fn(null, response)
-            override fun onFailure(call: Call<T>, t: Throwable) = fn(t, null)
+    override fun findAllBurgers(): Single<List<Burger>> {
+        return Single.create { emitter: SingleEmitter<List<Burger>> ->
+            makeBurgersStream().subscribe({ burgers ->
+                getIngredients(burgers).doOnComplete({
+                    emitter.onSuccess(burgers)
+                }).subscribe()
+            })
         }
     }
 
-    private fun createBurgersFrom(dtos: List<BurgerData>?): List<Burger> {
-        if (dtos == null) return ArrayList()
-        val burgers = ArrayList<Burger>()
-        dtos.forEach {
-            burgers.add(Burger.valueOf(it))
+    private fun makeBurgersStream(): Single<List<Burger>> =
+            api.getBurgers()
+                    .subscribeOn(Schedulers.io())
+                    .map { Burger.valuesOf(it) }
+
+    private fun getIngredients(burgers: List<Burger>): Flowable<List<Ingredient>> {
+        val streams = ArrayList<Single<List<Ingredient>>>()
+        burgers.forEach { burger ->
+            val single = api.getIngredientsForBurger(burger.id)
+                    .map { Ingredient.valuesOf(it) }
+                    .doOnSuccess { ingredients ->
+                        addIngredientsToBurger(burger, ingredients)
+                    }
+            streams.add(single)
         }
-        return burgers
+        return Single.merge(streams)
+                .subscribeOn(Schedulers.io())
     }
+
+    private fun addIngredientsToBurger(burger: Burger, ingredients: List<Ingredient>?) {
+        if (ingredients == null) return
+        ingredients.forEach {
+            burger.addIngredient(it, 1)
+        }
+    }
+
+
 }
+
+data class IngredientData(val id: Int, val name: String, val price: Double, val image: String)

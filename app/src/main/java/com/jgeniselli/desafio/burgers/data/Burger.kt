@@ -85,6 +85,14 @@ class Burger(val id: Int, val name: String, val imageUrl: String) {
         fun valueOf(burgerData: BurgerData): Burger {
             return Burger(burgerData.id, burgerData.name, burgerData.image)
         }
+
+        fun valuesOf(burgersData: List<BurgerData>): List<Burger> {
+            val burgers = ArrayList<Burger>(burgersData.size)
+            burgersData.forEach {
+                burgers.add(Burger.valueOf(it))
+            }
+            return burgers
+        }
     }
 }
 

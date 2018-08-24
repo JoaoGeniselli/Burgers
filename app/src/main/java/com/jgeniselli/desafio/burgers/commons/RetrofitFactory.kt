@@ -1,27 +1,24 @@
 package com.jgeniselli.desafio.burgers.commons
 
 import com.jgeniselli.desafio.burgers.data.source.BurgersAPI
-import retrofit2.Converter
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import kotlin.jvm.java
 
 class RetrofitFactory {
 
-
-
     companion object {
-
         var retrofitInstance: Retrofit? = null
 
-        @Synchronized
-        fun getDefaultRetrofit(): Retrofit {
-            retrofitInstance ?: apply {
-                val converterFactory: Converter.Factory = GsonConverterFactory.create()
+        private fun getDefaultRetrofit(): Retrofit {
+            retrofitInstance ?: synchronized(this, {
                 retrofitInstance = Retrofit.Builder()
-                        .baseUrl("http://localhost:8080")
-                        .addConverterFactory(converterFactory)
+                        .baseUrl("http://192.168.0.103:8080")
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create())
                         .build()
-            }
+            })
             return retrofitInstance!!
         }
 
@@ -29,7 +26,4 @@ class RetrofitFactory {
             return getDefaultRetrofit().create(BurgersAPI::class.java)
         }
     }
-
-
-
 }

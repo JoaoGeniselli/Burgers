@@ -5,13 +5,13 @@ import android.support.v7.app.AppCompatActivity
 import com.jgeniselli.desafio.burgers.R
 import com.jgeniselli.desafio.burgers.commons.replaceFragment
 
-class MenuActivity : AppCompatActivity() {
+class BurgersActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_menu)
+        setContentView(R.layout.activity_burgers)
 
         if (savedInstanceState == null)
-            replaceFragment(MenuFragment(), R.id.frame)
+            replaceFragment(BurgersFragment(), R.id.frame)
     }
 }
