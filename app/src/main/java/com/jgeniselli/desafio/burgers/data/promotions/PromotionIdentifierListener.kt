@@ -4,13 +4,14 @@ import com.jgeniselli.desafio.burgers.data.Burger
 import com.jgeniselli.desafio.burgers.data.IngredientChangesListener
 import java.util.*
 
-class PromotionIdentifierListener private constructor(): IngredientChangesListener {
+class PromotionIdentifierListener constructor(
+        private var identifiers: List<PromotionIdentifier>): IngredientChangesListener {
 
-    private var identifiers = Arrays.asList(
-            LightPromotionIdentifier(),
-            ALotOfMeatPromotionIdentifier(),
-            ALotOfCheesePromotionIdentifier()
-    )
+//    private var identifiers = Arrays.asList(
+//            LightPromotionIdentifier(),
+//            ALotOfMeatPromotionIdentifier(),
+//            ALotOfCheesePromotionIdentifier()
+//    )
 
     override fun onIngredientsChanged(burger: Burger) {
         identifiers.forEach {
@@ -25,7 +26,11 @@ class PromotionIdentifierListener private constructor(): IngredientChangesListen
         fun getDefault() : PromotionIdentifierListener {
             instance
                     ?: synchronized(this) {
-                instance = PromotionIdentifierListener()
+                instance = PromotionIdentifierListener(Arrays.asList(
+                        LightPromotionIdentifier(),
+                        ALotOfMeatPromotionIdentifier(),
+                        ALotOfCheesePromotionIdentifier()
+                ))
             }
             return instance!!
         }
