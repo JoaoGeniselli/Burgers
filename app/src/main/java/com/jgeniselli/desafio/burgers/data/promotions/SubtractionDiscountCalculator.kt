@@ -1,4 +1,4 @@
-package com.jgeniselli.desafio.burgers.data
+package com.jgeniselli.desafio.burgers.data.promotions
 
 class SubtractionDiscountCalculator private constructor(
         private val subtrahend: Double

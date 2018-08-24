@@ -1,5 +1,6 @@
-package com.jgeniselli.desafio.burgers.data
+package com.jgeniselli.desafio.burgers.data.promotions
 
+import com.jgeniselli.desafio.burgers.data.Ingredient
 import com.jgeniselli.desafio.burgers.data.source.PromotionData
 
 class Promotion(val id: Int, val name: String, val description: String, private var discountCalculator: DiscountCalculator?) {

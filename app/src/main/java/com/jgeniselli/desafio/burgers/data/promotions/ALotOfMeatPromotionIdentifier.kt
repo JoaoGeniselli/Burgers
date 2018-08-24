@@ -1,4 +1,7 @@
-package com.jgeniselli.desafio.burgers.data
+package com.jgeniselli.desafio.burgers.data.promotions
+
+import com.jgeniselli.desafio.burgers.data.Burger
+import com.jgeniselli.desafio.burgers.data.Ingredient
 
 
 class ALotOfMeatPromotionIdentifier : PromotionIdentifier {
@@ -10,7 +13,7 @@ class ALotOfMeatPromotionIdentifier : PromotionIdentifier {
         val meatAmount = burger.getAmount(meat)
         val promotion = Promotion.makeALotOfMeat(meatAmount)
         when {
-            meatAmount > 3 -> burger.addPromotion(promotion)
+            meatAmount >= 3 -> burger.addPromotion(promotion)
             else -> burger.removePromotion(promotion)
         }
     }

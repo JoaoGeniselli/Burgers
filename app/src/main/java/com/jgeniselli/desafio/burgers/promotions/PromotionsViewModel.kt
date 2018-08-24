@@ -3,7 +3,7 @@ package com.jgeniselli.desafio.burgers.promotions
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.jgeniselli.desafio.burgers.commons.RetrofitFactory
-import com.jgeniselli.desafio.burgers.data.Promotion
+import com.jgeniselli.desafio.burgers.data.promotions.Promotion
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSource
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSourceCacheProxy
 import com.jgeniselli.desafio.burgers.data.source.BurgersService

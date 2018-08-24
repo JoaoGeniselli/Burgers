@@ -1,5 +1,6 @@
 package com.jgeniselli.desafio.burgers.data
 
+import com.jgeniselli.desafio.burgers.data.promotions.Promotion
 import java.util.Collections.unmodifiableList
 
 class Burger(val id: Int, val name: String, val imageUrl: String) {

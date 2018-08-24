@@ -1,8 +1,8 @@
 package com.jgeniselli.desafio.burgers.data.source
 
 import com.jgeniselli.desafio.burgers.data.Burger
-import com.jgeniselli.desafio.burgers.data.Promotion
-import com.jgeniselli.desafio.burgers.data.PromotionIdentifierListener
+import com.jgeniselli.desafio.burgers.data.promotions.Promotion
+import com.jgeniselli.desafio.burgers.data.promotions.PromotionIdentifierListener
 import io.reactivex.Single
 
 class PromotionsObserverProxy(private val child: BurgersDataSource) : BurgersDataSource {

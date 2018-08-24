@@ -1,4 +1,7 @@
-package com.jgeniselli.desafio.burgers.data
+package com.jgeniselli.desafio.burgers.data.promotions
+
+import com.jgeniselli.desafio.burgers.data.Burger
+import com.jgeniselli.desafio.burgers.data.Ingredient
 
 
 class LightPromotionIdentifier : PromotionIdentifier {

@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.jgeniselli.desafio.burgers.R
 
-import com.jgeniselli.desafio.burgers.data.Promotion
+import com.jgeniselli.desafio.burgers.data.promotions.Promotion
 
 class PromotionsListAdapter(context: Context) : ArrayAdapter<Promotion>(context, 0) {
 

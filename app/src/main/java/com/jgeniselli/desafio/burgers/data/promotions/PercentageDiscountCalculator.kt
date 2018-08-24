@@ -1,4 +1,6 @@
-package com.jgeniselli.desafio.burgers.data
+package com.jgeniselli.desafio.burgers.data.promotions
+
+import com.jgeniselli.desafio.burgers.data.InvalidPercentageException
 
 class PercentageDiscountCalculator private constructor(discountPercentage: Double) : DiscountCalculator {
 
