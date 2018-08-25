@@ -15,7 +15,7 @@ interface IBurger {
     fun getPrice(): Double
     fun getIngredients(): List<Ingredient>
     fun getAmount(ingredient: Ingredient): Int
-    fun addIngredientChangesListener(listener: IngredientChangesListener): Boolean
+    fun addIngredientChangesListener(listener: IngredientChangesListener)
     fun removeIngredientChangesListener(listener: IngredientChangesListener)
     fun clone(): IBurger
 }
@@ -98,8 +98,9 @@ class MenuBurger(private val _id: Int, private val _name: String, private val _i
             ingredients.remove(ingredient)
     }
 
-    override fun addIngredientChangesListener(listener: IngredientChangesListener) =
-            ingredientObservers.add(listener)
+    override fun addIngredientChangesListener(listener: IngredientChangesListener) {
+        ingredientObservers.add(listener)
+    }
 
     override fun removeIngredientChangesListener(listener: IngredientChangesListener) {
         ingredientObservers.remove(listener)
