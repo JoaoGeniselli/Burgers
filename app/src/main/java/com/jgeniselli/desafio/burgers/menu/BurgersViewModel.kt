@@ -4,7 +4,6 @@ import android.arch.lifecycle.MutableLiveData
 import com.jgeniselli.desafio.burgers.commons.RequestBundle
 import com.jgeniselli.desafio.burgers.commons.RequestViewModel
 import com.jgeniselli.desafio.burgers.commons.RetrofitFactory
-import com.jgeniselli.desafio.burgers.data.Burger
 import com.jgeniselli.desafio.burgers.data.IBurger
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSource
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSourceCacheProxy

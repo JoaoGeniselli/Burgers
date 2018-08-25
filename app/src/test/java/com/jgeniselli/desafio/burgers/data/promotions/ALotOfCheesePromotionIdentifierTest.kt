@@ -1,6 +1,6 @@
 package com.jgeniselli.desafio.burgers.data.promotions
 
-import com.jgeniselli.desafio.burgers.data.Burger
+import com.jgeniselli.desafio.burgers.data.MenuBurger
 import com.jgeniselli.desafio.burgers.data.Ingredient
 import org.junit.Test
 import org.mockito.Mockito.*
@@ -45,13 +45,13 @@ class ALotOfCheesePromotionIdentifierTest {
         verify(burger, Times(1)).removePromotion(Promotion.makeALotOfCheese(6))
     }
 
-    private fun mockBurger(cheeseAmount: Int): Burger {
-        val mock = mock(Burger::class.java)
+    private fun mockBurger(cheeseAmount: Int): MenuBurger {
+        val mock = mock(MenuBurger::class.java)
         mockAmount(mock, cheeseAmount)
         return mock
     }
 
-    private fun mockAmount(mock: Burger, cheeseAmount: Int) {
+    private fun mockAmount(mock: MenuBurger, cheeseAmount: Int) {
         `when`(mock.getAmount(Ingredient.makeForPrice(cheeseId, 0.0, "")))
                 .thenReturn(cheeseAmount)
     }

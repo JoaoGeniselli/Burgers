@@ -8,13 +8,13 @@ import org.mockito.Mockito.*
 import org.mockito.internal.verification.Times
 import java.util.Collections.singletonList
 
-class BurgerTest {
+class MenuBurgerTest {
 
-    private lateinit var burger: Burger
+    private lateinit var burger: MenuBurger
 
     @Before
     fun createBurger() {
-        burger = Burger(1, "Test", "")
+        burger = MenuBurger(1, "Test", "")
     }
 
     @Test

@@ -17,10 +17,10 @@ interface IBurger {
     fun getAmount(ingredient: Ingredient): Int
     fun addIngredientChangesListener(listener: IngredientChangesListener): Boolean
     fun removeIngredientChangesListener(listener: IngredientChangesListener)
-    fun clone(): Burger
+    fun clone(): IBurger
 }
 
-class Burger(override val id: Int, override val name: String, override val imageUrl: String) : Cloneable, IBurger {
+class MenuBurger(override val id: Int, override val name: String, override val imageUrl: String) : Cloneable, IBurger {
 
     private val ingredients = HashMap<Ingredient, Int>()
     private val promotions = HashSet<Promotion>()
@@ -100,19 +100,19 @@ class Burger(override val id: Int, override val name: String, override val image
     }
 
     companion object {
-        fun valueOf(burgerData: BurgerData): Burger {
-            val burger = Burger(burgerData.id, burgerData.name, burgerData.image)
+        fun valueOf(burgerData: BurgerData): MenuBurger {
+            val burger = MenuBurger(burgerData.id, burgerData.name, burgerData.image)
             burger.addIngredientChangesListener(PromotionIdentifierListener.getDefault())
             return burger
         }
 
-        fun valuesOf(burgersData: List<BurgerData>): List<Burger> {
+        fun valuesOf(burgersData: List<BurgerData>): List<MenuBurger> {
             return burgersData.map { valueOf(it) }
         }
     }
 
-    override fun clone(): Burger {
-        val burger = Burger(id, name, imageUrl)
+    override fun clone(): MenuBurger {
+        val burger = MenuBurger(id, name, imageUrl)
         burger.ingredients.putAll(ingredients)
         burger.promotions.addAll(promotions)
         burger.ingredientObservers.addAll(ingredientObservers)

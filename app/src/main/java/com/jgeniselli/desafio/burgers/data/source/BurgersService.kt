@@ -1,8 +1,8 @@
 package com.jgeniselli.desafio.burgers.data.source
 
-import com.jgeniselli.desafio.burgers.data.Burger
 import com.jgeniselli.desafio.burgers.data.IBurger
 import com.jgeniselli.desafio.burgers.data.Ingredient
+import com.jgeniselli.desafio.burgers.data.MenuBurger
 import com.jgeniselli.desafio.burgers.data.promotions.Promotion
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -30,12 +30,12 @@ class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
                 .map { Promotion.valuesOf(it) }
     }
 
-    private fun makeBurgersStream(): Single<List<Burger>> =
+    private fun makeBurgersStream(): Single<List<IBurger>> =
             api.getBurgers()
                     .subscribeOn(Schedulers.io())
-                    .map { Burger.valuesOf(it) }
+                    .map { MenuBurger.valuesOf(it) }
 
-    private fun getIngredients(burgers: List<Burger>): Flowable<List<Ingredient>> {
+    private fun getIngredients(burgers: List<IBurger>): Flowable<List<Ingredient>> {
         val streams = ArrayList<Single<List<Ingredient>>>()
         burgers.forEach { burger ->
             val single = makeIngredientsStream(burger)
@@ -49,7 +49,7 @@ class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
             api.addBurgerToCart(burger.id)
                     .subscribeOn(Schedulers.io())
 
-    private fun makeIngredientsStream(burger: Burger): Single<List<Ingredient>> =
+    private fun makeIngredientsStream(burger: IBurger): Single<List<Ingredient>> =
             api.getIngredientsForBurger(burger.id)
                     .map { Ingredient.valuesOf(it) }
                     .doOnSuccess { ingredients ->
@@ -57,7 +57,7 @@ class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
                     }
 
 
-    private fun addIngredientsToBurger(burger: Burger, ingredients: List<Ingredient>?) {
+    private fun addIngredientsToBurger(burger: IBurger, ingredients: List<Ingredient>?) {
         if (ingredients == null) return
         ingredients.forEach {
             burger.addIngredient(it, 1)
@@ -81,7 +81,7 @@ class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
     private fun makeBurgerIdStream(id: Int) =
             api.getBurgerById(id)
                     .subscribeOn(Schedulers.io())
-                    .map { Burger.valueOf(it) }
+                    .map { MenuBurger.valueOf(it) }
 
 }
 

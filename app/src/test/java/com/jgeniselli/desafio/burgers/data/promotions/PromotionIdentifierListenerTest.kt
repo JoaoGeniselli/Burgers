@@ -1,6 +1,6 @@
 package com.jgeniselli.desafio.burgers.data.promotions
 
-import com.jgeniselli.desafio.burgers.data.Burger
+import com.jgeniselli.desafio.burgers.data.MenuBurger
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
@@ -12,7 +12,7 @@ class PromotionIdentifierListenerTest {
     fun notifyOneIdentifier() {
         val identifiers = mockIdentifiers(1)
         val listener = PromotionIdentifierListener(identifiers)
-        val burger = mock(Burger::class.java)
+        val burger = mock(MenuBurger::class.java)
         listener.onIngredientsChanged(burger)
         verify(identifiers.first(), Times(1)).applyPromotionIfAvailable(burger)
     }
@@ -21,7 +21,7 @@ class PromotionIdentifierListenerTest {
     fun notifyFewIdentifiers() {
         val identifiers = mockIdentifiers(2)
         val listener = PromotionIdentifierListener(identifiers)
-        val burger = mock(Burger::class.java)
+        val burger = mock(MenuBurger::class.java)
         listener.onIngredientsChanged(burger)
         verify(identifiers.first(), Times(1)).applyPromotionIfAvailable(burger)
         verify(identifiers.last(), Times(1)).applyPromotionIfAvailable(burger)
