@@ -1,4 +1,4 @@
-package com.jgeniselli.desafio.burgers.details
+package com.jgeniselli.desafio.burgers.details.customization
 
 import android.app.Activity
 import android.arch.lifecycle.Observer
@@ -13,7 +13,6 @@ import android.view.Menu
 import android.view.MenuItem
 import com.jgeniselli.desafio.burgers.R
 import kotlinx.android.synthetic.main.activity_ingredient_selection.*
-import kotlin.collections.HashMap
 
 class IngredientSelectionActivity : AppCompatActivity() {
 

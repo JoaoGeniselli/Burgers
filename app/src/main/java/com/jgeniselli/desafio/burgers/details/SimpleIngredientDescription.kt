@@ -1,6 +1,7 @@
 package com.jgeniselli.desafio.burgers.details
 
 import com.jgeniselli.desafio.burgers.data.Ingredient
+import com.jgeniselli.desafio.burgers.details.customization.IngredientDescription
 import java.text.NumberFormat
 import java.util.*
 

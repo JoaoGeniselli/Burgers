@@ -1,4 +1,4 @@
-package com.jgeniselli.desafio.burgers.details
+package com.jgeniselli.desafio.burgers.details.customization
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.jgeniselli.desafio.burgers.details
+package com.jgeniselli.desafio.burgers.details.customization
 
 import android.arch.lifecycle.MutableLiveData
 import com.jgeniselli.desafio.burgers.commons.Event
@@ -8,6 +8,7 @@ import com.jgeniselli.desafio.burgers.data.Ingredient
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSource
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSourceCacheProxy
 import com.jgeniselli.desafio.burgers.data.source.BurgersService
+import com.jgeniselli.desafio.burgers.details.SimpleIngredientDescription
 import io.reactivex.Single
 import java.util.*
 import kotlin.collections.HashMap

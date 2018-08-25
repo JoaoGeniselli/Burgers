@@ -1,4 +1,4 @@
-package com.jgeniselli.desafio.burgers.details
+package com.jgeniselli.desafio.burgers.details.customization
 
 import com.jgeniselli.desafio.burgers.commons.RequestBundle
 

@@ -3,7 +3,6 @@ package com.jgeniselli.desafio.burgers.data.source
 import com.jgeniselli.desafio.burgers.data.CustomBurger
 import com.jgeniselli.desafio.burgers.data.IBurger
 import com.jgeniselli.desafio.burgers.data.Ingredient
-import com.jgeniselli.desafio.burgers.data.MenuBurger
 import com.jgeniselli.desafio.burgers.data.promotions.Promotion
 import io.reactivex.Single
 

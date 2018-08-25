@@ -1,7 +1,7 @@
 package com.jgeniselli.desafio.burgers.data
 
 import com.jgeniselli.desafio.burgers.data.promotions.PercentageDiscountCalculator
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class PercentageDiscountCalculatorTest {

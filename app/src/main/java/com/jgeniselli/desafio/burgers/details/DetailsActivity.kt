@@ -10,7 +10,8 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.jgeniselli.desafio.burgers.R
 import com.jgeniselli.desafio.burgers.data.IBurger
-import com.jgeniselli.desafio.burgers.details.IngredientSelectionActivity.Companion.EXTRA_INGREDIENTS
+import com.jgeniselli.desafio.burgers.details.customization.IngredientSelectionActivity
+import com.jgeniselli.desafio.burgers.details.customization.IngredientSelectionActivity.Companion.EXTRA_INGREDIENTS
 import com.jgeniselli.desafio.burgers.menu.BurgerToDescriptionAdapter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_details.*

@@ -23,7 +23,7 @@
         <activity
             android:name=".details.DetailsActivity"
             android:label="@string/details" />
-        <activity android:name=".details.IngredientSelectionActivity"
+        <activity android:name=".details.customization.IngredientSelectionActivity"
             android:label="@string/available_ingredients"/>
     </application>
 

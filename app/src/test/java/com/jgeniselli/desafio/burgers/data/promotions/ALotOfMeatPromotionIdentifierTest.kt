@@ -1,7 +1,7 @@
 package com.jgeniselli.desafio.burgers.data.promotions
 
-import com.jgeniselli.desafio.burgers.data.MenuBurger
 import com.jgeniselli.desafio.burgers.data.Ingredient
+import com.jgeniselli.desafio.burgers.data.MenuBurger
 import org.junit.Test
 import org.mockito.Mockito.*
 import org.mockito.internal.verification.Times
