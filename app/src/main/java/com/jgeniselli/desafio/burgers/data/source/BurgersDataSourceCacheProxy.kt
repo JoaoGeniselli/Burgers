@@ -1,5 +1,6 @@
 package com.jgeniselli.desafio.burgers.data.source
 
+import android.util.SparseArray
 import com.jgeniselli.desafio.burgers.data.Burger
 import com.jgeniselli.desafio.burgers.data.promotions.Promotion
 import io.reactivex.Single
@@ -10,6 +11,7 @@ import kotlin.collections.ArrayList
 class BurgersDataSourceCacheProxy(private val child: BurgersDataSource) : BurgersDataSource {
 
     private val allBurgers = ArrayList<Burger>()
+    private val burgerById = SparseArray<Burger>()
     private val allPromotions = ArrayList<Promotion>()
 
     override fun findAllBurgers(): Single<List<Burger>> {
@@ -46,5 +48,21 @@ class BurgersDataSourceCacheProxy(private val child: BurgersDataSource) : Burger
                 emitter.onError(it)
             })
         }
+    }
+
+    override fun findBurgerById(id: Int): Single<Burger> {
+        if (burgerById.get(id) != null) {
+            return create { e -> e.onSuccess(burgerById.get(id).clone()) }
+        }
+        return create { emitter ->
+            child.findBurgerById(id).subscribe({burger ->
+                burgerById.put(id, burger.clone())
+                emitter.onSuccess(burger)
+            }, {
+                burgerById.remove(id)
+                emitter.onError(it)
+            })
+        }
+
     }
 }

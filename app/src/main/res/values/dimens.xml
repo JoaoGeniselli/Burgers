@@ -6,4 +6,5 @@
     <dimen name="card_elevation">4dp</dimen>
     <dimen name="item_offset">4dp</dimen>
     <dimen name="recycler_default_margin">4dp</dimen>
+    <dimen name="details_image_height">130dp</dimen>
 </resources>

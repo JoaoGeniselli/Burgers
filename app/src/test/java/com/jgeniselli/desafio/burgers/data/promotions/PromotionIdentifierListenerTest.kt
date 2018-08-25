@@ -34,9 +34,4 @@ class PromotionIdentifierListenerTest {
         }
         return identifiers
     }
-
-
-
-
-
 }

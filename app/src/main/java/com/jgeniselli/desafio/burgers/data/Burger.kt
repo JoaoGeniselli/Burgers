@@ -3,7 +3,7 @@ package com.jgeniselli.desafio.burgers.data
 import com.jgeniselli.desafio.burgers.data.promotions.Promotion
 import java.util.Collections.unmodifiableList
 
-class Burger(val id: Int, val name: String, val imageUrl: String) {
+class Burger(val id: Int, val name: String, val imageUrl: String) : Cloneable {
 
     private val ingredients = HashMap<Ingredient, Int>()
     private val promotions = HashSet<Promotion>()
@@ -83,7 +83,7 @@ class Burger(val id: Int, val name: String, val imageUrl: String) {
     }
 
     companion object {
-        private fun valueOf(burgerData: BurgerData): Burger {
+        fun valueOf(burgerData: BurgerData): Burger {
             return Burger(burgerData.id, burgerData.name, burgerData.image)
         }
 
@@ -94,6 +94,14 @@ class Burger(val id: Int, val name: String, val imageUrl: String) {
             }
             return burgers
         }
+    }
+
+    public override fun clone(): Burger {
+        val burger = Burger(id, name, imageUrl)
+        burger.ingredients.putAll(ingredients)
+        burger.promotions.addAll(promotions)
+        burger.ingredientObservers.addAll(ingredientObservers)
+        return burger
     }
 }
 

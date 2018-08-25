@@ -15,4 +15,7 @@ interface BurgersAPI {
 
     @GET("promocao")
     fun getPromotions(): Single<List<PromotionData>>
+
+    @GET("lanche/{id}")
+    fun getBurgerById(@Path("id") id: Int): Single<BurgerData>
 }

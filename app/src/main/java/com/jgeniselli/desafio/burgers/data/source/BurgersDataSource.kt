@@ -7,4 +7,5 @@ import io.reactivex.Single
 interface BurgersDataSource {
     fun findAllBurgers(): Single<List<Burger>>
     fun findAllPromotions(): Single<List<Promotion>>
+    fun findBurgerById(id: Int): Single<Burger>
 }

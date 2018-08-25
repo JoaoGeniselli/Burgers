@@ -2,10 +2,12 @@ package com.jgeniselli.desafio.burgers.menu
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.jgeniselli.desafio.burgers.R
 import com.jgeniselli.desafio.burgers.commons.replaceFragment
+import com.jgeniselli.desafio.burgers.details.DetailsActivity
 import com.jgeniselli.desafio.burgers.promotions.PromotionsFragment
 import kotlinx.android.synthetic.main.activity_burgers.*
 
@@ -37,8 +39,10 @@ class BurgersActivity : AppCompatActivity() {
     }
 
     private fun redirectToSelectedItem(position: Int) {
-//        val intent = Intent(this, PromotionsFragment::class.java)
-//        startActivity(intent)
-//        viewModel.selectedPosition.value = null
+        val intent = Intent(this, DetailsActivity::class.java)
+        val id = viewModel.burgers.value?.get(position)?.id ?: 0
+        intent.putExtra(DetailsActivity.EXTRA_BURGER_ID, id)
+        startActivity(intent)
+        viewModel.selectedPosition.value = null
     }
 }

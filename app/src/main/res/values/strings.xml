@@ -5,4 +5,8 @@
     <string name="ok">OK</string>
     <string name="burgers">Lanches</string>
     <string name="promotions">Promoções</string>
+    <string name="add_to_cart">Adicionar ao Carrinho</string>
+    <string name="customize">Customizar</string>
+    <string name="price">Preço:</string>
+    <string name="details">Detalhes</string>
 </resources>

@@ -7,12 +7,6 @@ import java.util.*
 class PromotionIdentifierListener constructor(
         private var identifiers: List<PromotionIdentifier>): IngredientChangesListener {
 
-//    private var identifiers = Arrays.asList(
-//            LightPromotionIdentifier(),
-//            ALotOfMeatPromotionIdentifier(),
-//            ALotOfCheesePromotionIdentifier()
-//    )
-
     override fun onIngredientsChanged(burger: Burger) {
         identifiers.forEach {
             it.applyPromotionIfAvailable(burger)
