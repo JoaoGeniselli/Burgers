@@ -13,6 +13,7 @@ import com.jgeniselli.desafio.burgers.commons.PromotionsListAdapter
 import com.jgeniselli.desafio.burgers.commons.RequestBundle
 import com.jgeniselli.desafio.burgers.commons.RequestViewModel
 import com.jgeniselli.desafio.burgers.data.promotions.Promotion
+import displaySimpleAlert
 import kotlinx.android.synthetic.main.fragment_promotions.*
 
 class PromotionsFragment : Fragment() {
@@ -40,7 +41,7 @@ class PromotionsFragment : Fragment() {
     private fun observeViewModel(viewModel: PromotionsViewModel) {
         viewModel.errorMessage.observe(this, Observer {
             it?.getContentIfNotHandled()?.let {
-                displayDialog(it)
+                displaySimpleAlert(it)
             }
         })
         viewModel.loadingState.observe(this, Observer {
@@ -59,11 +60,6 @@ class PromotionsFragment : Fragment() {
         })
     }
 
-    private fun displayDialog(message: String) {
-        AlertDialog.Builder(activity)
-                .setTitle(R.string.warning)
-                .setMessage(message)
-                .setNeutralButton(R.string.ok, null)
-                .show()
-    }
 }
+
+

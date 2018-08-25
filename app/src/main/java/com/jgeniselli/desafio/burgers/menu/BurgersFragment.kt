@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import com.jgeniselli.desafio.burgers.R
 import com.jgeniselli.desafio.burgers.commons.RequestBundle
 import com.jgeniselli.desafio.burgers.data.Burger
+import displaySimpleAlert
 import kotlinx.android.synthetic.main.fragment_burgers.*
 
 class BurgersFragment : Fragment(), BurgersRecyclerViewAdapter.ItemClickListener {
@@ -60,7 +61,7 @@ class BurgersFragment : Fragment(), BurgersRecyclerViewAdapter.ItemClickListener
     private fun observeError() {
         viewModel.errorMessage.observe(this, Observer {
             it?.getContentIfNotHandled()?.let {
-                displayDialog(it)
+                displaySimpleAlert(it)
             }
         })
     }
@@ -83,13 +84,5 @@ class BurgersFragment : Fragment(), BurgersRecyclerViewAdapter.ItemClickListener
             descriptions.add(BurgerToDescriptionAdapter(it))
         }
         return descriptions
-    }
-
-    private fun displayDialog(message: String) {
-        AlertDialog.Builder(context)
-                .setTitle(R.string.warning)
-                .setMessage(message)
-                .setNeutralButton(R.string.ok, null)
-                .show()
     }
 }
