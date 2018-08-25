@@ -5,18 +5,18 @@ import com.jgeniselli.desafio.burgers.commons.Event
 import com.jgeniselli.desafio.burgers.commons.RequestBundle
 import com.jgeniselli.desafio.burgers.commons.RequestViewModel
 import com.jgeniselli.desafio.burgers.commons.RetrofitFactory
-import com.jgeniselli.desafio.burgers.data.Burger
+import com.jgeniselli.desafio.burgers.data.IBurger
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSource
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSourceCacheProxy
 import com.jgeniselli.desafio.burgers.data.source.BurgersService
 import io.reactivex.Single
 
-class DetailsViewModel : RequestViewModel<Burger, IdRequestBundle>() {
+class DetailsViewModel : RequestViewModel<IBurger, IdRequestBundle>() {
 
     val successAndFinish = MutableLiveData<Event<String>>()
     private var service: BurgersDataSource? = null
 
-    override fun makeRequest(bundle: IdRequestBundle): Single<Burger> {
+    override fun makeRequest(bundle: IdRequestBundle): Single<IBurger> {
         service ?: apply {
             val api = RetrofitFactory.createAPI()
             service = BurgersDataSourceCacheProxy(BurgersService(api))

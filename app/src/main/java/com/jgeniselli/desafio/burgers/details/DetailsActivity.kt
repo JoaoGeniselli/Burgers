@@ -7,7 +7,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.jgeniselli.desafio.burgers.R
-import com.jgeniselli.desafio.burgers.data.Burger
+import com.jgeniselli.desafio.burgers.data.IBurger
 import com.jgeniselli.desafio.burgers.menu.BurgerToDescriptionAdapter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_details.*
@@ -62,7 +62,7 @@ class DetailsActivity : AppCompatActivity() {
                 .show()
     }
 
-    private fun updateContent(burger: Burger) {
+    private fun updateContent(burger: IBurger) {
         val description = BurgerToDescriptionAdapter(burger)
         Picasso.get()
                 .load(description.getImageUrl())

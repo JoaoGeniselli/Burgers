@@ -4,21 +4,37 @@ import com.jgeniselli.desafio.burgers.data.promotions.Promotion
 import com.jgeniselli.desafio.burgers.data.promotions.PromotionIdentifierListener
 import java.util.Collections.unmodifiableList
 
-class Burger(val id: Int, val name: String, val imageUrl: String) : Cloneable {
+interface IBurger {
+    val id: Int
+    val name: String
+    val imageUrl: String
+    fun addPromotion(promotion: Promotion)
+    fun removePromotion(promotion: Promotion)
+    fun addIngredient(ingredient: Ingredient, amount: Int)
+    fun removeIngredient(ingredient: Ingredient, amountToRemove: Int)
+    fun getPrice(): Double
+    fun getIngredients(): List<Ingredient>
+    fun getAmount(ingredient: Ingredient): Int
+    fun addIngredientChangesListener(listener: IngredientChangesListener): Boolean
+    fun removeIngredientChangesListener(listener: IngredientChangesListener)
+    fun clone(): Burger
+}
+
+class Burger(override val id: Int, override val name: String, override val imageUrl: String) : Cloneable, IBurger {
 
     private val ingredients = HashMap<Ingredient, Int>()
     private val promotions = HashSet<Promotion>()
     private val ingredientObservers = HashSet<IngredientChangesListener>()
 
-    fun addPromotion(promotion: Promotion) {
+    override fun addPromotion(promotion: Promotion) {
         promotions.add(promotion)
     }
 
-    fun removePromotion(promotion: Promotion) {
+    override fun removePromotion(promotion: Promotion) {
         promotions.remove(promotion)
     }
 
-    fun addIngredient(ingredient: Ingredient, amount: Int) {
+    override fun addIngredient(ingredient: Ingredient, amount: Int) {
         if (amount > 0)
             ingredients[ingredient] = amount
         notifyIngredientChange()
@@ -30,7 +46,7 @@ class Burger(val id: Int, val name: String, val imageUrl: String) : Cloneable {
         }
     }
 
-    fun removeIngredient(ingredient: Ingredient, amountToRemove: Int) {
+    override fun removeIngredient(ingredient: Ingredient, amountToRemove: Int) {
         if (ingredients.contains(ingredient) && amountToRemove > 0) {
             val currentAmount = ingredients[ingredient]!!
             val adjustedAmount = minOf(amountToRemove, currentAmount)
@@ -40,13 +56,13 @@ class Burger(val id: Int, val name: String, val imageUrl: String) : Cloneable {
         }
     }
 
-    fun getPrice(): Double {
+    override fun getPrice(): Double {
         val totalPrice = getIngredientsTotalPrice()
         val discount = minOf(getPromotionsDiscount(), totalPrice)
         return totalPrice.minus(discount)
     }
 
-    fun getIngredients(): List<Ingredient> = unmodifiableList(ingredients.keys.toList())
+    override fun getIngredients(): List<Ingredient> = unmodifiableList(ingredients.keys.toList())
 
     private fun getIngredientsTotalPrice(): Double {
         var price = 0.0
@@ -65,7 +81,7 @@ class Burger(val id: Int, val name: String, val imageUrl: String) : Cloneable {
         return discount
     }
 
-    fun getAmount(ingredient: Ingredient): Int {
+    override fun getAmount(ingredient: Ingredient): Int {
         if (ingredients.contains(ingredient))
             return ingredients[ingredient]!!
         return 0
@@ -76,10 +92,10 @@ class Burger(val id: Int, val name: String, val imageUrl: String) : Cloneable {
             ingredients.remove(ingredient)
     }
 
-    fun addIngredientChangesListener(listener: IngredientChangesListener) =
+    override fun addIngredientChangesListener(listener: IngredientChangesListener) =
             ingredientObservers.add(listener)
 
-    fun removeIngredientChangesListener(listener: IngredientChangesListener) {
+    override fun removeIngredientChangesListener(listener: IngredientChangesListener) {
         ingredientObservers.remove(listener)
     }
 
@@ -95,7 +111,7 @@ class Burger(val id: Int, val name: String, val imageUrl: String) : Cloneable {
         }
     }
 
-    public override fun clone(): Burger {
+    override fun clone(): Burger {
         val burger = Burger(id, name, imageUrl)
         burger.ingredients.putAll(ingredients)
         burger.promotions.addAll(promotions)
@@ -105,6 +121,6 @@ class Burger(val id: Int, val name: String, val imageUrl: String) : Cloneable {
 }
 
 interface IngredientChangesListener {
-    fun onIngredientsChanged(burger: Burger)
+    fun onIngredientsChanged(burger: IBurger)
 }
 

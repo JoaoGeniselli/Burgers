@@ -1,10 +1,10 @@
 package com.jgeniselli.desafio.burgers.menu
 
-import com.jgeniselli.desafio.burgers.data.Burger
+import com.jgeniselli.desafio.burgers.data.IBurger
 import java.text.NumberFormat
 import java.util.*
 
-class BurgerToDescriptionAdapter(private val burger: Burger) : BurgerDescription {
+class BurgerToDescriptionAdapter(private val burger: IBurger) : BurgerDescription {
 
     override fun getBurgerId() = burger.id
 
