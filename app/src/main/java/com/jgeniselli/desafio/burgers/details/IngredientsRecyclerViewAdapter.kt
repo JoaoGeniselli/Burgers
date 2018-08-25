@@ -59,7 +59,7 @@ class IngredientsRecyclerViewAdapter : RecyclerView.Adapter<IngredientsRecyclerV
     private fun decreateAmount(item: IngredientDescription, amountView: TextView) {
         var currentAmount = item.getAmount().toInt()
         if (currentAmount > 0) {
-            currentAmount++
+            currentAmount--
             item.setAmount(currentAmount)
             amountView.text = item.getAmount()
         }
