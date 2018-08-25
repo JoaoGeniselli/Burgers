@@ -26,6 +26,7 @@ abstract class RequestViewModel<T, B : RequestBundle> : ViewModel() {
         get() = _loading
 
     fun start(bundle: B) {
+        if (locksResult() && result.value != null) return
         val single = makeRequest(bundle)
         attachThreadAndLoading(single)
                 .subscribe({ setResult(it) }, { _error.value = Event(it.message) })
@@ -41,6 +42,8 @@ abstract class RequestViewModel<T, B : RequestBundle> : ViewModel() {
                     .doAfterTerminate { _loading.value = Event(false) }
 
     abstract fun makeRequest(bundle: B): Single<T>
+
+    open fun locksResult(): Boolean = false
 
 }
 

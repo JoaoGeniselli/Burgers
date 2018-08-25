@@ -25,7 +25,6 @@ class DetailsViewModel : RequestViewModel<CustomBurger, IdRequestBundle>() {
         }
         return service!!.findBurgerById(bundle.id)
                 .map { CustomBurger(it) }
-
     }
 
     fun addToCartButtonClicked() {
