@@ -46,7 +46,7 @@ class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
     }
 
     override fun addToCart(burger: IBurger): Single<Any> =
-            api.addBurgerToCart(burger.getId())
+            api.putBurgerToCart(burger.getId())
                     .subscribeOn(Schedulers.io())
 
     private fun makeIngredientsStream(burger: IBurger): Single<List<Ingredient>> =
@@ -56,6 +56,10 @@ class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
                         addIngredientsToBurger(burger, ingredients)
                     }
 
+    override fun findAllIngredients(): Single<List<Ingredient>> =
+            api.getIngredients()
+                    .subscribeOn(Schedulers.io())
+                    .map { Ingredient.valuesOf(it) }
 
     private fun addIngredientsToBurger(burger: IBurger, ingredients: List<Ingredient>?) {
         if (ingredients == null) return

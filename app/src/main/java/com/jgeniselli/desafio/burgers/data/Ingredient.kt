@@ -2,7 +2,7 @@ package com.jgeniselli.desafio.burgers.data
 
 import com.jgeniselli.desafio.burgers.data.source.IngredientData
 
-class Ingredient private constructor(val id: Int, val price: Double, val name: String, image: String) {
+class Ingredient private constructor(val id: Int, val price: Double, val name: String, val image: String) {
 
     companion object {
 

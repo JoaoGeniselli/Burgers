@@ -28,7 +28,11 @@ abstract class RequestViewModel<T, B : RequestBundle> : ViewModel() {
     fun start(bundle: B) {
         val single = makeRequest(bundle)
         attachThreadAndLoading(single)
-                .subscribe({ _result.value = it }, { _error.value = Event(it.message) })
+                .subscribe({ setResult(it) }, { _error.value = Event(it.message) })
+    }
+
+    open fun setResult(result: T) {
+        _result.value = result
     }
 
     fun <G> attachThreadAndLoading(single: Single<G>): Single<G> =

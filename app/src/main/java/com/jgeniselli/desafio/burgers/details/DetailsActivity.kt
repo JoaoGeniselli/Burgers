@@ -2,6 +2,7 @@ package com.jgeniselli.desafio.burgers.details
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -53,6 +54,17 @@ class DetailsActivity : AppCompatActivity() {
         add_to_cart_btn.setOnClickListener {
             viewModel.addToCartButtonClicked()
         }
+
+        customize_btn.setOnClickListener {
+            redirectToCustomization()
+        }
+    }
+
+    fun redirectToCustomization() {
+        val customIngredients = viewModel.getCustomIngredientsForSelection()
+        val intent = Intent(this, IngredientSelectionActivity::class.java)
+        intent.putExtra("INGREDIENTS", customIngredients)
+        startActivity(intent)
     }
 
     private fun finalize() {

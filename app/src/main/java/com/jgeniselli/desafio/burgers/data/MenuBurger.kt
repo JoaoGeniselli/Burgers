@@ -1,7 +1,6 @@
 package com.jgeniselli.desafio.burgers.data
 
 import com.jgeniselli.desafio.burgers.data.promotions.Promotion
-import com.jgeniselli.desafio.burgers.data.promotions.PromotionIdentifierListener
 import java.util.Collections.unmodifiableList
 
 interface IBurger {
@@ -20,11 +19,11 @@ interface IBurger {
     fun clone(): IBurger
 }
 
-class MenuBurger(private val _id: Int, private val _name: String, private val _imageUrl: String) : Cloneable, IBurger {
+open class MenuBurger(protected val _id: Int, protected val _name: String, protected val _imageUrl: String) : Cloneable, IBurger {
 
-    private val ingredients = HashMap<Ingredient, Int>()
-    private val promotions = HashSet<Promotion>()
-    private val ingredientObservers = HashSet<IngredientChangesListener>()
+    protected val ingredients = HashMap<Ingredient, Int>()
+    protected val promotions = HashSet<Promotion>()
+    protected val ingredientObservers = HashSet<IngredientChangesListener>()
 
     override fun getId(): Int = _id
 
@@ -70,7 +69,7 @@ class MenuBurger(private val _id: Int, private val _name: String, private val _i
 
     override fun getIngredients(): List<Ingredient> = unmodifiableList(ingredients.keys.toList())
 
-    private fun getIngredientsTotalPrice(): Double {
+    open fun getIngredientsTotalPrice(): Double {
         var price = 0.0
         ingredients.forEach {
             price += it.key.price * it.value
@@ -78,7 +77,7 @@ class MenuBurger(private val _id: Int, private val _name: String, private val _i
         return price
     }
 
-    private fun getPromotionsDiscount(): Double {
+    open fun getPromotionsDiscount(): Double {
         var discount = 0.0
         val ingredients = this.ingredients.keys.toList()
         promotions.forEach {
@@ -108,9 +107,7 @@ class MenuBurger(private val _id: Int, private val _name: String, private val _i
 
     companion object {
         fun valueOf(burgerData: BurgerData): MenuBurger {
-            val burger = MenuBurger(burgerData.id, burgerData.name, burgerData.image)
-            burger.addIngredientChangesListener(PromotionIdentifierListener.getDefault())
-            return burger
+            return MenuBurger(burgerData.id, burgerData.name, burgerData.image)
         }
 
         fun valuesOf(burgersData: List<BurgerData>): List<MenuBurger> {
