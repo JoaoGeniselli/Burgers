@@ -79,7 +79,7 @@ open class MenuBurger(private val _id: Int, private val _name: String, private v
 
     open fun getPromotionsDiscount(): Double {
         var discount = 0.0
-        val ingredients = this.ingredients.keys.toList()
+        val ingredients = getIngredients()
         promotions.forEach {
             discount += it.getDiscountFor(ingredients)
         }

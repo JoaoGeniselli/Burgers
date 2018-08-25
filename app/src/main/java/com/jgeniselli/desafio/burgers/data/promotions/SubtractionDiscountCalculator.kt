@@ -4,7 +4,9 @@ class SubtractionDiscountCalculator private constructor(
         private val subtrahend: Double
 ) : DiscountCalculator {
 
-    override fun calculateDiscount(basePrice: Double) = basePrice - subtrahend
+    override fun calculateDiscount(basePrice: Double): Double {
+        return subtrahend
+    }
 
     companion object {
         fun makeForSubtrahend(subtrahend: Double): SubtractionDiscountCalculator {

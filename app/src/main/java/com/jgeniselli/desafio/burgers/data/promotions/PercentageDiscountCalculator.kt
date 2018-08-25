@@ -7,7 +7,7 @@ class PercentageDiscountCalculator private constructor(discountPercentage: Doubl
     private val calculationPercentage = discountPercentage / 100.0
 
     override fun calculateDiscount(basePrice: Double): Double =
-            basePrice - (basePrice * calculationPercentage)
+            basePrice * calculationPercentage
 
     companion object {
         fun makeForPercentage(percentage: Double): PercentageDiscountCalculator {

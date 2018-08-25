@@ -40,14 +40,14 @@ class Promotion(val id: Int, val name: String, val description: String, private 
         }
 
         fun makeALotOfMeat(amount: Int): Promotion {
-            val discount = (amount / 3).toDouble()
+            val discount = (amount / 3).toDouble() * 3.0
             return Promotion(2, "Muita Carne", "",
                     SubtractionDiscountCalculator.makeForSubtrahend(discount))
         }
 
         fun makeALotOfCheese(amount: Int): Promotion {
-            val discount = (amount / 3).toDouble()
-            return Promotion(2, "Muito Queijo", "",
+            val discount = (amount / 3).toDouble() * 1.5
+            return Promotion(3, "Muito Queijo", "",
                     SubtractionDiscountCalculator.makeForSubtrahend(discount))
         }
     }

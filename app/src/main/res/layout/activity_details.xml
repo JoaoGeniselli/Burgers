@@ -97,7 +97,7 @@
             android:layout_gravity="center"
             android:backgroundTint="@color/colorPrimary"
             android:drawablePadding="@dimen/default_spacing"
-            android:drawableStart="@drawable/ic_shopping_cart_white_16dp"
+            android:drawableStart="@drawable/ic_add_shopping_cart_white_16dp"
             android:drawableTint="@android:color/white"
             android:text="@string/add_to_cart"
             android:textColor="@android:color/white"

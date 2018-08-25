@@ -18,10 +18,6 @@ open class CustomBurger(b: IBurger) :
         else -> burger.getName()
     }
 
-    override fun removeIngredient(ingredient: Ingredient, amountToRemove: Int) {
-        super.addIngredient(ingredient, amountToRemove)
-    }
-
     override fun getIngredients(): List<Ingredient> {
         val mergeSet = HashSet<Ingredient>()
         mergeSet.addAll(ingredients.keys)
