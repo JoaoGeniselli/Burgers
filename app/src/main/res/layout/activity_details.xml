@@ -1,103 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".details.DetailsActivity">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingEnd="@dimen/default_spacing"
+                android:paddingStart="@dimen/default_spacing">
+
+                <ImageView
+                    android:id="@+id/image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/details_image_height"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/name_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="X-Bacon" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_spacing"
+                    android:text="@string/price"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/price_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="R$18,50" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_spacing"
+                    android:text="@string/ingredients"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/ingredients_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Pão com gergelim, bacon, hambúrguer de carne e queijo - do seu jeito" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/default_spacing"
+                    android:background="@android:drawable/divider_horizontal_bright" />
+
+                <Button
+                    android:id="@+id/customize_btn"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:text="@string/customize"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp"
+                    tools:ignore="ButtonStyle" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:drawable/divider_horizontal_bright" />
+
+        <Button
+            android:id="@+id/add_to_cart_btn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingEnd="@dimen/default_spacing"
-            android:paddingStart="@dimen/default_spacing">
+            android:layout_gravity="center"
+            android:backgroundTint="@color/colorPrimary"
+            android:drawablePadding="@dimen/default_spacing"
+            android:drawableStart="@drawable/ic_shopping_cart_white_16dp"
+            android:drawableTint="@android:color/white"
+            android:text="@string/add_to_cart"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            tools:ignore="ButtonStyle" />
 
-            <ImageView
-                android:id="@+id/image_view"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/details_image_height"
-                android:scaleType="centerInside"
-                app:srcCompat="@mipmap/ic_launcher" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/name_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                tools:text="X-Bacon" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_spacing"
-                android:text="@string/price"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/price_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="R$18,50" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_spacing"
-                android:text="@string/ingredients"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/ingredients_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="Pão com gergelim, bacon, hambúrguer de carne e queijo - do seu jeito" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/default_spacing"
-                android:background="@android:drawable/divider_horizontal_bright" />
-
-            <Button
-                android:id="@+id/customize_btn"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="end"
-                android:text="@string/customize"
-                android:textColor="@color/colorPrimary"
-                android:textSize="12sp"
-                tools:ignore="ButtonStyle" />
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:drawable/divider_horizontal_bright" />
-
-    <Button
-        android:id="@+id/add_to_cart_btn"
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_centerInParent="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:backgroundTint="@color/colorPrimary"
-        android:drawablePadding="@dimen/default_spacing"
-        android:drawableStart="@drawable/ic_shopping_cart_white_16dp"
-        android:drawableTint="@android:color/white"
-        android:text="@string/add_to_cart"
-        android:textColor="@android:color/white"
-        android:textSize="12sp"
-        tools:ignore="ButtonStyle" />
+        android:layout_height="wrap_content" />
 
-</LinearLayout>
+</RelativeLayout>

@@ -31,4 +31,8 @@ class BurgersDataSourceCacheProxy(private val child: BurgersDataSource) : Burger
         }
         return burgersByIdCache[id]
     }
+
+    override fun addToCart(burger: Burger): Single<Any> {
+        return child.addToCart(burger)
+    }
 }

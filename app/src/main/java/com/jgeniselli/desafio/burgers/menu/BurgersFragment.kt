@@ -1,6 +1,5 @@
 package com.jgeniselli.desafio.burgers.menu
 
-import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -79,10 +78,6 @@ class BurgersFragment : Fragment(), BurgersRecyclerViewAdapter.ItemClickListener
     }
 
     private fun createDescriptions(burgers: List<Burger>): List<BurgerDescription> {
-        val descriptions = ArrayList<BurgerDescription>()
-        burgers.forEach {
-            descriptions.add(BurgerToDescriptionAdapter(it))
-        }
-        return descriptions
+        return burgers.map { BurgerToDescriptionAdapter(it) }
     }
 }

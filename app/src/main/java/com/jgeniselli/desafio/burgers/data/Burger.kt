@@ -1,6 +1,7 @@
 package com.jgeniselli.desafio.burgers.data
 
 import com.jgeniselli.desafio.burgers.data.promotions.Promotion
+import com.jgeniselli.desafio.burgers.data.promotions.PromotionIdentifierListener
 import java.util.Collections.unmodifiableList
 
 class Burger(val id: Int, val name: String, val imageUrl: String) : Cloneable {
@@ -84,15 +85,13 @@ class Burger(val id: Int, val name: String, val imageUrl: String) : Cloneable {
 
     companion object {
         fun valueOf(burgerData: BurgerData): Burger {
-            return Burger(burgerData.id, burgerData.name, burgerData.image)
+            val burger = Burger(burgerData.id, burgerData.name, burgerData.image)
+            burger.addIngredientChangesListener(PromotionIdentifierListener.getDefault())
+            return burger
         }
 
         fun valuesOf(burgersData: List<BurgerData>): List<Burger> {
-            val burgers = ArrayList<Burger>(burgersData.size)
-            burgersData.forEach {
-                burgers.add(Burger.valueOf(it))
-            }
-            return burgers
+            return burgersData.map { valueOf(it) }
         }
     }
 

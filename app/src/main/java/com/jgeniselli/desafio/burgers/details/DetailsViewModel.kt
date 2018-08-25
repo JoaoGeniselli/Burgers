@@ -1,35 +1,39 @@
 package com.jgeniselli.desafio.burgers.details
 
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import com.jgeniselli.desafio.burgers.commons.Event
+import com.jgeniselli.desafio.burgers.commons.RequestBundle
+import com.jgeniselli.desafio.burgers.commons.RequestViewModel
 import com.jgeniselli.desafio.burgers.commons.RetrofitFactory
 import com.jgeniselli.desafio.burgers.data.Burger
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSource
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSourceCacheProxy
 import com.jgeniselli.desafio.burgers.data.source.BurgersService
-import com.jgeniselli.desafio.burgers.data.source.PromotionsObserverProxy
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.Single
 
-class DetailsViewModel : ViewModel() {
+class DetailsViewModel : RequestViewModel<Burger, IdRequestBundle>() {
 
-    val burger = MutableLiveData<Burger>()
+    val successAndFinish = MutableLiveData<Event<String>>()
     private var service: BurgersDataSource? = null
 
-    fun start(burgerId: Int) {
+    override fun makeRequest(bundle: IdRequestBundle): Single<Burger> {
         service ?: apply {
             val api = RetrofitFactory.createAPI()
-            service = PromotionsObserverProxy(
-                    BurgersDataSourceCacheProxy(
-                            BurgersService(api)
-                    )
-            )
+            service = BurgersDataSourceCacheProxy(BurgersService(api))
+
         }
+        return service!!.findBurgerById(bundle.id)
+    }
 
-        service!!.findBurgerById(burgerId)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe {  }
-                .doAfterTerminate{  }
-                .subscribe({ burger.value = it }, {  })
-
+    fun addToCartButtonClicked() {
+        if (result.value == null || service == null) return
+        attachThreadAndLoading(service!!.addToCart(result.value!!))
+                .subscribe({
+                    successAndFinish.value = Event("Adicionado com Sucesso")
+                }, {
+                    postError("Ocorreu um erro ao adicionar lanche")
+                })
     }
 }
+
+data class IdRequestBundle(val id: Int) : RequestBundle

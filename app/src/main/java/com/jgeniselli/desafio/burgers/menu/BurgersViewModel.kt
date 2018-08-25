@@ -8,7 +8,6 @@ import com.jgeniselli.desafio.burgers.data.Burger
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSource
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSourceCacheProxy
 import com.jgeniselli.desafio.burgers.data.source.BurgersService
-import com.jgeniselli.desafio.burgers.data.source.PromotionsObserverProxy
 import io.reactivex.Single
 
 class BurgersViewModel : RequestViewModel<List<Burger>, RequestBundle>() {
@@ -19,11 +18,7 @@ class BurgersViewModel : RequestViewModel<List<Burger>, RequestBundle>() {
     override fun makeRequest(bundle: RequestBundle): Single<List<Burger>> {
         service ?: apply {
             val api = RetrofitFactory.createAPI()
-            service = PromotionsObserverProxy(
-                    BurgersDataSourceCacheProxy(
-                            BurgersService(api)
-                    )
-            )
+            service = BurgersDataSourceCacheProxy(BurgersService(api))
         }
         return service!!.findAllBurgers()
     }

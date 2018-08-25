@@ -2,8 +2,10 @@ package com.jgeniselli.desafio.burgers.details
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.jgeniselli.desafio.burgers.R
 import com.jgeniselli.desafio.burgers.data.Burger
 import com.jgeniselli.desafio.burgers.menu.BurgerToDescriptionAdapter
@@ -24,14 +26,40 @@ class DetailsActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this).get(DetailsViewModel::class.java)
 
-        viewModel.burger.observe(this, Observer {
+        viewModel.result.observe(this, Observer {
             if (it != null)
                 updateContent(it)
         })
 
+        viewModel.loadingState.observe(this, Observer {
+            it?.getContentIfNotHandled()?.let {
+                progress_bar.visibility = when (it) {
+                    false -> View.GONE
+                    true -> View.VISIBLE
+                }
+            }
+        })
+
+        viewModel.successAndFinish.observe(this, Observer {
+            it?.getContentIfNotHandled()?.let {
+                finalize()
+            }
+        })
+
         val id = intent.getIntExtra(EXTRA_BURGER_ID, 0)
 
-        viewModel.start(id)
+        viewModel.start(IdRequestBundle(id))
+
+        add_to_cart_btn.setOnClickListener {
+            viewModel.addToCartButtonClicked()
+        }
+    }
+
+    private fun finalize() {
+        AlertDialog.Builder(this)
+                .setMessage(R.string.success_on_add_to_cart)
+                .setNeutralButton(R.string.ok) { _, _ -> finish() }
+                .show()
     }
 
     private fun updateContent(burger: Burger) {

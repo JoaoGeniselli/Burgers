@@ -18,4 +18,7 @@ interface BurgersAPI {
 
     @GET("lanche/{id}")
     fun getBurgerById(@Path("id") id: Int): Single<BurgerData>
+
+    @GET("pedido/{id}")
+    fun addBurgerToCart(@Path("id") id: Int): Single<Any>
 }

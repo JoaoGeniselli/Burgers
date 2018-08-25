@@ -24,16 +24,14 @@ class Promotion(val id: Int, val name: String, val description: String, private 
     }
 
     companion object {
-        fun valueOf(data: PromotionData) : Promotion {
-            with(data){
+        fun valueOf(data: PromotionData): Promotion {
+            with(data) {
                 return Promotion(id, name, description, null)
             }
         }
 
-        fun valuesOf(datas: List<PromotionData>) : List<Promotion> {
-            val promotions = ArrayList<Promotion>()
-            datas.forEach { promotions.add(valueOf(it)) }
-            return promotions
+        fun valuesOf(datas: List<PromotionData>): List<Promotion> {
+            return datas.map { valueOf(it) }
         }
 
         fun makeLight(): Promotion {

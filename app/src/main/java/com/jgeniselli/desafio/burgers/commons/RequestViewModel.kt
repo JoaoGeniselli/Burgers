@@ -12,6 +12,10 @@ abstract class RequestViewModel<T, B : RequestBundle> : ViewModel() {
     private val _error = MutableLiveData<Event<String?>>()
     private val _loading = MutableLiveData<Event<Boolean>>()
 
+    protected fun postError(error: String?) {
+        _error.value = Event(error)
+    }
+
     val result: LiveData<T>
         get() = _result
 
@@ -22,12 +26,15 @@ abstract class RequestViewModel<T, B : RequestBundle> : ViewModel() {
         get() = _loading
 
     fun start(bundle: B) {
-        makeRequest(bundle)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { _loading.value = Event(true) }
-                .doAfterTerminate { _loading.value = Event(false) }
+        val single = makeRequest(bundle)
+        attachThreadAndLoading(single)
                 .subscribe({ _result.value = it }, { _error.value = Event(it.message) })
     }
+
+    fun <G> attachThreadAndLoading(single: Single<G>): Single<G> =
+            single.observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { _loading.value = Event(true) }
+                    .doAfterTerminate { _loading.value = Event(false) }
 
     abstract fun makeRequest(bundle: B): Single<T>
 

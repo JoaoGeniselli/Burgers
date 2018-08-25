@@ -9,4 +9,5 @@
     <string name="customize">Customizar</string>
     <string name="price">Preço:</string>
     <string name="details">Detalhes</string>
+    <string name="success_on_add_to_cart">Lanche adicionado ao carrinho com sucesso.</string>
 </resources>
