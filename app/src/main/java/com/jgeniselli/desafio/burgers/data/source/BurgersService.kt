@@ -1,9 +1,6 @@
 package com.jgeniselli.desafio.burgers.data.source
 
-import com.jgeniselli.desafio.burgers.data.CustomBurger
-import com.jgeniselli.desafio.burgers.data.IBurger
-import com.jgeniselli.desafio.burgers.data.Ingredient
-import com.jgeniselli.desafio.burgers.data.MenuBurger
+import com.jgeniselli.desafio.burgers.data.*
 import com.jgeniselli.desafio.burgers.data.promotions.Promotion
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -55,13 +52,12 @@ class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
         val ids = ArrayList<Int>()
         burger.getExtraIngredientsForSelection().forEach {
             if (it.value != 0) {
-                for (i in 1 .. it.value)
+                for (i in 1..it.value)
                     ids.add(it.key.id)
             }
         }
         return ids.joinToString(prefix = "[", separator = ",", postfix = "]")
     }
-
 
     private fun makeIngredientsStream(burger: IBurger): Single<List<Ingredient>> =
             api.getIngredientsForBurger(burger.getId())
@@ -101,5 +97,57 @@ class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
                     .subscribeOn(Schedulers.io())
                     .map { MenuBurger.valueOf(it) }
 
-}
+    override fun getCart(): Single<List<Order>> {
+        return create { emitter ->
+            makeCartRequest().subscribe({
+                getBurgersForOrders(it).doOnComplete {
+                    getExtrasForOrders(it).subscribe({
+                        emitter.onSuccess(it)
+                    },{
+                        emitter.onError(it)
+                    })
+                }.subscribe()
+            }, {
+                emitter.onError(it)
+            })
+        }
+    }
 
+    private fun getBurgersForOrders(orders: List<Order>): Flowable<IBurger> {
+        val streams = ArrayList<Single<IBurger>>()
+        orders.forEach { order ->
+            val stream = findBurgerById(order.burgerId).doAfterSuccess {
+                order.burger = it
+            }
+            streams.add(stream)
+        }
+        return Single.merge(streams)
+                .subscribeOn(Schedulers.io())
+    }
+
+    private fun makeCartRequest() =
+            api.getCart()
+                    .subscribeOn(Schedulers.io())
+                    .map { Order.valuesOf(it) }
+
+    private fun getExtrasForOrders(orders: List<Order>): Single<List<Order>> {
+        return create { emitter ->
+            findAllIngredients().subscribe({
+                bindIngredientsToOrders(it, orders)
+                emitter.onSuccess(orders)
+            }, {
+                emitter.onError(it)
+            })
+        }
+    }
+
+    private fun bindIngredientsToOrders(ingredients: List<Ingredient>, orders: List<Order>) {
+        orders.forEach { order ->
+            for (i in 1.. order.extraIds.size) {
+                val filtered = ingredients.filter { it.id == i }
+                if (filtered.isNotEmpty())
+                    order.burger?.addIngredient(filtered.first(), 1)
+            }
+        }
+    }
+}

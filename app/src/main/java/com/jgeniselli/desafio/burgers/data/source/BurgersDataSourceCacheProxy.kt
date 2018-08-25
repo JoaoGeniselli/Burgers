@@ -4,6 +4,7 @@ import android.util.SparseArray
 import com.jgeniselli.desafio.burgers.data.CustomBurger
 import com.jgeniselli.desafio.burgers.data.IBurger
 import com.jgeniselli.desafio.burgers.data.Ingredient
+import com.jgeniselli.desafio.burgers.data.Order
 import com.jgeniselli.desafio.burgers.data.promotions.Promotion
 import io.reactivex.Single
 
@@ -44,5 +45,9 @@ class BurgersDataSourceCacheProxy(private val child: BurgersDataSource) : Burger
             allIngredientsCache = child.findAllIngredients().cache()
         }
         return allIngredientsCache!!
+    }
+
+    override fun getCart(): Single<List<Order>> {
+        return child.getCart()
     }
 }

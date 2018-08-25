@@ -4,6 +4,7 @@ import com.jgeniselli.desafio.burgers.data.promotions.Promotion
 import java.util.Collections.unmodifiableList
 
 interface IBurger {
+
     fun getId(): Int
     fun getName(): String
     fun getImageUrl(): String

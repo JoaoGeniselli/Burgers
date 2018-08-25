@@ -1,6 +1,7 @@
 package com.jgeniselli.desafio.burgers.data.source
 
 import com.jgeniselli.desafio.burgers.data.BurgerData
+import com.jgeniselli.desafio.burgers.data.OrderData
 import io.reactivex.Single
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -27,6 +28,9 @@ interface BurgersAPI {
 
     @PUT("pedido/{id}")
     fun putBurgerToCart(@Path("id") id: Int, @Body extras: ExtrasRequest): Single<Any>
+
+    @GET("pedido")
+    fun getCart(): Single<List<OrderData>>
 }
 
 data class ExtrasRequest(val extras: String) : Serializable
