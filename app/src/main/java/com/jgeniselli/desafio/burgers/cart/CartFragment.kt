@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.jgeniselli.desafio.burgers.R
-import com.jgeniselli.desafio.burgers.data.Order
+import com.jgeniselli.desafio.burgers.data.order.Order
 import displaySimpleAlert
 import kotlinx.android.synthetic.main.fragment_burgers.*
 

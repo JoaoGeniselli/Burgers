@@ -15,7 +15,7 @@ class Ingredient private constructor(val id: Int, val price: Double, val name: S
             if (price < 0.0) throw InvalidPriceException()
         }
 
-        fun valueOf(data: IngredientData): Ingredient = with(data) {
+        private fun valueOf(data: IngredientData): Ingredient = with(data) {
             Ingredient(id, price, name, image)
         }
 

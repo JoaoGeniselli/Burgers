@@ -1,4 +1,4 @@
-package com.jgeniselli.desafio.burgers.data
+package com.jgeniselli.desafio.burgers.data.order
 
 import java.io.Serializable
 

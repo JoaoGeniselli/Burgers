@@ -28,7 +28,7 @@ class BurgersRecyclerViewAdapter(private val itemClickListener: ItemClickListene
             ingredientsView.text = item.getIngredientNames()
             Picasso.get()
                     .load(item.getImageUrl())
-                    .placeholder(R.drawable.ic_local_dining_black_24dp)
+                    .placeholder(R.drawable.ic_burger_primary)
                     .noFade()
                     .into(imageView)
         }

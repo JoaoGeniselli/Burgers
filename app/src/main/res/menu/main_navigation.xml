@@ -4,16 +4,16 @@
     <item
         android:id="@+id/burgers"
         android:title="@string/burgers"
-        android:icon="@drawable/ic_local_dining_black_24dp"/>
+        android:icon="@drawable/ic_burger_primary"/>
 
     <item
         android:id="@+id/promotions"
         android:title="@string/promotions"
-        android:icon="@drawable/ic_attach_money_black_24dp"/>
+        android:icon="@drawable/ic_sales_tag_primary"/>
 
-    <item
-        android:id="@+id/cart"
-        android:title="@string/shoppintg_cart"
-        android:icon="@drawable/ic_shopping_cart_black_24dp"/>
+    <!--<item-->
+        <!--android:id="@+id/cart"-->
+        <!--android:title="@string/shoppintg_cart"-->
+        <!--android:icon="@drawable/ic_shopping_cart_black_24dp"/>-->
 
 </menu>

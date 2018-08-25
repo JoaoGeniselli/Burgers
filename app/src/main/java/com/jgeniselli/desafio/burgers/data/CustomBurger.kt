@@ -4,7 +4,7 @@ import com.jgeniselli.desafio.burgers.data.promotions.PromotionIdentifierListene
 import java.util.*
 import java.util.Collections.unmodifiableMap
 
-open class CustomBurger(b: IBurger) :
+open class CustomBurger(b: Burger) :
         MenuBurger(b.getId(), b.getName(), b.getImageUrl()) {
 
     val burger: MenuBurger = b as MenuBurger

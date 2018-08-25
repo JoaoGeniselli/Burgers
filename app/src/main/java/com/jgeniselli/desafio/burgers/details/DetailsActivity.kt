@@ -9,7 +9,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.jgeniselli.desafio.burgers.R
-import com.jgeniselli.desafio.burgers.data.IBurger
+import com.jgeniselli.desafio.burgers.data.Burger
 import com.jgeniselli.desafio.burgers.details.customization.IngredientSelectionActivity
 import com.jgeniselli.desafio.burgers.details.customization.IngredientSelectionActivity.Companion.EXTRA_INGREDIENTS
 import com.jgeniselli.desafio.burgers.menu.BurgerToDescriptionAdapter
@@ -97,11 +97,11 @@ class DetailsActivity : AppCompatActivity() {
                 .show()
     }
 
-    private fun updateContent(burger: IBurger) {
+    private fun updateContent(burger: Burger) {
         val description = BurgerToDescriptionAdapter(burger)
         Picasso.get()
                 .load(description.getImageUrl())
-                .placeholder(R.drawable.ic_local_dining_black_24dp)
+                .placeholder(R.drawable.ic_burger_primary)
                 .into(image_view)
 
         name_view.text = description.getName()

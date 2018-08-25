@@ -36,7 +36,7 @@ class IngredientsRecyclerViewAdapter : RecyclerView.Adapter<IngredientsRecyclerV
             priceView.text = item.getIngredientPrice()
             Picasso.get()
                     .load(item.getIngredientImage())
-                    .placeholder(R.drawable.ic_local_dining_black_24dp)
+                    .placeholder(R.drawable.ic_burger_primary)
                     .into(imageView)
             removeButton.setOnClickListener {
                 decreateAmount(item, amountView)

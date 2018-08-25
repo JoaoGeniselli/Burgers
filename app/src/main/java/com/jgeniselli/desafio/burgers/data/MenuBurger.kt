@@ -3,7 +3,7 @@ package com.jgeniselli.desafio.burgers.data
 import com.jgeniselli.desafio.burgers.data.promotions.Promotion
 import java.util.Collections.unmodifiableList
 
-interface IBurger {
+interface Burger {
 
     fun getId(): Int
     fun getName(): String
@@ -17,10 +17,10 @@ interface IBurger {
     fun getAmount(ingredient: Ingredient): Int
     fun addIngredientChangesListener(listener: IngredientChangesListener)
     fun removeIngredientChangesListener(listener: IngredientChangesListener)
-    fun clone(): IBurger
+    fun clone(): Burger
 }
 
-open class MenuBurger(private val _id: Int, private val _name: String, private val _imageUrl: String) : Cloneable, IBurger {
+open class MenuBurger(private val _id: Int, private val _name: String, private val _imageUrl: String) : Cloneable, Burger {
 
     protected val ingredients = HashMap<Ingredient, Int>()
     protected val promotions = HashSet<Promotion>()
@@ -126,6 +126,6 @@ open class MenuBurger(private val _id: Int, private val _name: String, private v
 }
 
 interface IngredientChangesListener {
-    fun onIngredientsChanged(burger: IBurger)
+    fun onIngredientsChanged(burger: Burger)
 }
 

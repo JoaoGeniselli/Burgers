@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:scaleType="centerInside"
-                tools:src="@drawable/ic_local_dining_black_24dp" />
+                tools:src="@drawable/ic_burger_primary" />
 
             <LinearLayout
                 android:layout_width="match_parent"

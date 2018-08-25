@@ -45,6 +45,11 @@ abstract class RequestViewModel<T, B : RequestBundle> : ViewModel() {
 
     open fun locksResult(): Boolean = false
 
+    override fun onCleared() {
+//        DisposableManager.dispose()
+        super.onCleared()
+    }
+
 }
 
 

@@ -1,6 +1,7 @@
 package com.jgeniselli.desafio.burgers.data.source
 
 import com.jgeniselli.desafio.burgers.data.*
+import com.jgeniselli.desafio.burgers.data.order.Order
 import com.jgeniselli.desafio.burgers.data.promotions.Promotion
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -10,8 +11,8 @@ import io.reactivex.schedulers.Schedulers
 
 class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
 
-    override fun findAllBurgers(): Single<List<IBurger>> {
-        return create { emitter: SingleEmitter<List<IBurger>> ->
+    override fun findAllBurgers(): Single<List<Burger>> {
+        return create { emitter: SingleEmitter<List<Burger>> ->
             makeBurgersStream().subscribe({ burgers ->
                 getIngredients(burgers).doOnComplete {
                     emitter.onSuccess(burgers)
@@ -28,12 +29,12 @@ class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
                 .map { Promotion.valuesOf(it) }
     }
 
-    private fun makeBurgersStream(): Single<List<IBurger>> =
+    private fun makeBurgersStream(): Single<List<Burger>> =
             api.getBurgers()
                     .subscribeOn(Schedulers.io())
                     .map { MenuBurger.valuesOf(it) }
 
-    private fun getIngredients(burgers: List<IBurger>): Flowable<List<Ingredient>> {
+    private fun getIngredients(burgers: List<Burger>): Flowable<List<Ingredient>> {
         val streams = ArrayList<Single<List<Ingredient>>>()
         burgers.forEach { burger ->
             val single = makeIngredientsStream(burger)
@@ -59,7 +60,7 @@ class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
         return ids.joinToString(prefix = "[", separator = ",", postfix = "]")
     }
 
-    private fun makeIngredientsStream(burger: IBurger): Single<List<Ingredient>> =
+    private fun makeIngredientsStream(burger: Burger): Single<List<Ingredient>> =
             api.getIngredientsForBurger(burger.getId())
                     .map { Ingredient.valuesOf(it) }
                     .doOnSuccess { ingredients ->
@@ -71,14 +72,14 @@ class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
                     .subscribeOn(Schedulers.io())
                     .map { Ingredient.valuesOf(it) }
 
-    private fun addIngredientsToBurger(burger: IBurger, ingredients: List<Ingredient>?) {
+    private fun addIngredientsToBurger(burger: Burger, ingredients: List<Ingredient>?) {
         if (ingredients == null) return
         ingredients.forEach {
             burger.addIngredient(it, 1)
         }
     }
 
-    override fun findBurgerById(id: Int): Single<IBurger> {
+    override fun findBurgerById(id: Int): Single<Burger> {
         return create { emitter ->
             makeBurgerIdStream(id).subscribe({ burger ->
                 makeIngredientsStream(burger).subscribe({
@@ -113,8 +114,8 @@ class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
         }
     }
 
-    private fun getBurgersForOrders(orders: List<Order>): Flowable<IBurger> {
-        val streams = ArrayList<Single<IBurger>>()
+    private fun getBurgersForOrders(orders: List<Order>): Flowable<Burger> {
+        val streams = ArrayList<Single<Burger>>()
         orders.forEach { order ->
             val stream = findBurgerById(order.burgerId).doAfterSuccess {
                 order.burger = it

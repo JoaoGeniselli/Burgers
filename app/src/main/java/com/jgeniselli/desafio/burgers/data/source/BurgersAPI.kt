@@ -1,7 +1,7 @@
 package com.jgeniselli.desafio.burgers.data.source
 
 import com.jgeniselli.desafio.burgers.data.BurgerData
-import com.jgeniselli.desafio.burgers.data.OrderData
+import com.jgeniselli.desafio.burgers.data.order.OrderData
 import io.reactivex.Single
 import retrofit2.http.Body
 import retrofit2.http.GET

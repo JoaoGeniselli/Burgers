@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.jgeniselli.desafio.burgers.R
 import com.jgeniselli.desafio.burgers.commons.RequestBundle
-import com.jgeniselli.desafio.burgers.data.IBurger
+import com.jgeniselli.desafio.burgers.data.Burger
 import displaySimpleAlert
 import kotlinx.android.synthetic.main.fragment_burgers.*
 
@@ -72,12 +72,12 @@ class BurgersFragment : Fragment(), BurgersRecyclerViewAdapter.ItemClickListener
         })
     }
 
-    private fun updateContent(burgers: List<IBurger>) {
+    private fun updateContent(burgers: List<Burger>) {
         val descriptions = createDescriptions(burgers)
         adapter.updateContent(descriptions)
     }
 
-    private fun createDescriptions(burgers: List<IBurger>): List<BurgerDescription> {
+    private fun createDescriptions(burgers: List<Burger>): List<BurgerDescription> {
         return burgers.map { BurgerToDescriptionAdapter(it) }
     }
 }
