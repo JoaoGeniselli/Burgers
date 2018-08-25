@@ -9,7 +9,7 @@ class PercentageDiscountCalculatorTest {
     @Test
     fun calculatePercentage() {
         val calculator = makeCalculator(10.0)
-        assertEquals(9.0, calculator.calculateDiscount(10.0), 0.0001)
+        assertEquals(1.0, calculator.calculateDiscount(10.0), 0.0001)
     }
 
     @Test(expected = InvalidPercentageException::class)

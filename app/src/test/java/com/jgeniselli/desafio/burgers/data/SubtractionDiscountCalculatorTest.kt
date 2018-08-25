@@ -7,9 +7,9 @@ import org.junit.Test
 class SubtractionDiscountCalculatorTest {
 
     @Test
-    fun calculatePercentage() {
+    fun calculate() {
         val calculator = makeCalculator(5.5)
-        assertEquals(4.5, calculator.calculateDiscount(10.0), 0.0001)
+        assertEquals(5.5, calculator.calculateDiscount(10.0), 0.0001)
     }
 
     private fun makeCalculator(subtrahend: Double) =
