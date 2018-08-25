@@ -1,5 +1,6 @@
 package com.jgeniselli.desafio.burgers.data.source
 
+import com.jgeniselli.desafio.burgers.data.CustomBurger
 import com.jgeniselli.desafio.burgers.data.IBurger
 import com.jgeniselli.desafio.burgers.data.Ingredient
 import com.jgeniselli.desafio.burgers.data.MenuBurger
@@ -45,9 +46,22 @@ class BurgersService(private val api: BurgersAPI) : BurgersDataSource {
                 .subscribeOn(Schedulers.io())
     }
 
-    override fun addToCart(burger: IBurger): Single<Any> =
-            api.putBurgerToCart(burger.getId())
-                    .subscribeOn(Schedulers.io())
+    override fun addToCart(burger: CustomBurger): Single<Any> {
+        return api.putBurgerToCart(burger.getId(), ExtrasRequest(extractExtras(burger)))
+                .subscribeOn(Schedulers.io())
+    }
+
+    private fun extractExtras(burger: CustomBurger): String {
+        val ids = ArrayList<Int>()
+        burger.getExtraIngredientsForSelection().forEach {
+            if (it.value != 0) {
+                for (i in 1 .. it.value)
+                    ids.add(it.key.id)
+            }
+        }
+        return ids.joinToString(prefix = "[", separator = ",", postfix = "]")
+    }
+
 
     private fun makeIngredientsStream(burger: IBurger): Single<List<Ingredient>> =
             api.getIngredientsForBurger(burger.getId())

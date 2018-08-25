@@ -1,5 +1,6 @@
 package com.jgeniselli.desafio.burgers.data.source
 
+import com.jgeniselli.desafio.burgers.data.CustomBurger
 import com.jgeniselli.desafio.burgers.data.IBurger
 import com.jgeniselli.desafio.burgers.data.Ingredient
 import com.jgeniselli.desafio.burgers.data.MenuBurger
@@ -11,5 +12,5 @@ interface BurgersDataSource {
     fun findAllPromotions(): Single<List<Promotion>>
     fun findBurgerById(id: Int): Single<IBurger>
     fun findAllIngredients(): Single<List<Ingredient>>
-    fun addToCart(burger: IBurger): Single<Any>
+    fun addToCart(burger: CustomBurger): Single<Any>
 }
