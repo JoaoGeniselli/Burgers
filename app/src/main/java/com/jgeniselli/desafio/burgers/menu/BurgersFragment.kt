@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jgeniselli.desafio.burgers.R
+import com.jgeniselli.desafio.burgers.commons.RequestBundle
 import com.jgeniselli.desafio.burgers.data.Burger
 import kotlinx.android.synthetic.main.fragment_burgers.*
 
@@ -35,14 +36,16 @@ class BurgersFragment : Fragment(), BurgersRecyclerViewAdapter.ItemClickListener
         observeError()
         observeLoading()
         setupRecycler()
-        viewModel.start()
+        viewModel.start(RequestBundle.empty())
     }
 
     private fun observeLoading() {
-        viewModel.loading.observe(this, Observer {
-            progress_bar.visibility = when {
-                (it == null || !it) -> View.GONE
-                else -> View.VISIBLE
+        viewModel.loadingState.observe(this, Observer {
+            it?.getContentIfNotHandled()?.let {
+                progress_bar.visibility = when (it) {
+                    false -> View.GONE
+                    true -> View.VISIBLE
+                }
             }
         })
     }
@@ -55,19 +58,17 @@ class BurgersFragment : Fragment(), BurgersRecyclerViewAdapter.ItemClickListener
     }
 
     private fun observeError() {
-        viewModel.error.observe(this, Observer {
-            if (it != null) {
+        viewModel.errorMessage.observe(this, Observer {
+            it?.getContentIfNotHandled()?.let {
                 displayDialog(it)
-                viewModel.error.value = null
             }
         })
     }
 
     private fun observeBurgers() {
-        viewModel.burgers.observe(this, Observer {
-            if (it != null) {
+        viewModel.result.observe(this, Observer {
+            if (it != null)
                 updateContent(it)
-            }
         })
     }
 

@@ -10,12 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.jgeniselli.desafio.burgers.R
 import com.jgeniselli.desafio.burgers.commons.PromotionsListAdapter
+import com.jgeniselli.desafio.burgers.commons.RequestBundle
+import com.jgeniselli.desafio.burgers.commons.RequestViewModel
+import com.jgeniselli.desafio.burgers.data.promotions.Promotion
 import kotlinx.android.synthetic.main.fragment_promotions.*
 
 class PromotionsFragment : Fragment() {
 
     private lateinit var adapter: PromotionsListAdapter
-    private lateinit var viewModel: PromotionsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_promotions, container, false)
@@ -24,34 +26,36 @@ class PromotionsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         activity?.title = getString(R.string.promotions)
-        adapter = PromotionsListAdapter(context!!)
-        viewModel = ViewModelProviders.of(activity!!).get(PromotionsViewModel::class.java)
-        observeViewModel()
         setupList()
-        viewModel.start()
+        val viewModel = ViewModelProviders.of(activity!!).get(PromotionsViewModel::class.java)
+        observeViewModel(viewModel)
+        viewModel.start(RequestBundle.empty())
     }
 
     private fun setupList() {
+        adapter = PromotionsListAdapter(context!!)
         list_view.adapter = adapter
     }
 
-    private fun observeViewModel() {
-        viewModel.error.observe(this, Observer {
-            if (it != null) {
+    private fun observeViewModel(viewModel: PromotionsViewModel) {
+        viewModel.errorMessage.observe(this, Observer {
+            it?.getContentIfNotHandled()?.let {
                 displayDialog(it)
-                viewModel.error.value = null
             }
         })
-        viewModel.loading.observe(this, Observer {
-            progress_bar.visibility = when {
-                (it == null || !it) -> View.GONE
-                else -> View.VISIBLE
+        viewModel.loadingState.observe(this, Observer {
+            it?.getContentIfNotHandled()?.let {
+                progress_bar.visibility = when (it) {
+                    false -> View.GONE
+                    true -> View.VISIBLE
+                }
             }
         })
-        viewModel.promotions.observe(this, Observer {
-            it ?: ArrayList()
-            adapter.clear()
-            adapter.addAll(it!!)
+        viewModel.result.observe(this, Observer {
+            if (it != null) {
+                adapter.clear()
+                adapter.addAll(it)
+            }
         })
     }
 

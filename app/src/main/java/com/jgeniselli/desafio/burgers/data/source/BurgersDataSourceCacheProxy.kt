@@ -4,65 +4,31 @@ import android.util.SparseArray
 import com.jgeniselli.desafio.burgers.data.Burger
 import com.jgeniselli.desafio.burgers.data.promotions.Promotion
 import io.reactivex.Single
-import io.reactivex.Single.create
-import java.util.Collections.unmodifiableList
-import kotlin.collections.ArrayList
 
 class BurgersDataSourceCacheProxy(private val child: BurgersDataSource) : BurgersDataSource {
 
-    private val allBurgers = ArrayList<Burger>()
-    private val burgerById = SparseArray<Burger>()
-    private val allPromotions = ArrayList<Promotion>()
+    private var allBurgersCache: Single<List<Burger>>? = null
+    private var allPromotionsCache: Single<List<Promotion>>? = null
+    private var burgersByIdCache = SparseArray<Single<Burger>>()
 
     override fun findAllBurgers(): Single<List<Burger>> {
-        if (allBurgers.isNotEmpty()) {
-            return create { emitter ->
-                emitter.onSuccess(unmodifiableList(allBurgers))
-            }
+        allBurgersCache ?: apply {
+            allBurgersCache = child.findAllBurgers().cache()
         }
-        return create { emitter ->
-            child.findAllBurgers().subscribe({
-                it ?: ArrayList()
-                allBurgers.addAll(it)
-                emitter.onSuccess(it)
-            }, {
-                allBurgers.clear()
-                emitter.onError(it)
-            })
-        }
+        return allBurgersCache!!
     }
 
     override fun findAllPromotions(): Single<List<Promotion>> {
-        if (allPromotions.isNotEmpty()) {
-            return create { emitter ->
-                emitter.onSuccess(unmodifiableList(allPromotions))
-            }
+        allPromotionsCache ?: apply {
+            allPromotionsCache = child.findAllPromotions().cache()
         }
-        return create { emitter ->
-            child.findAllPromotions().subscribe({
-                it ?: ArrayList()
-                allPromotions.addAll(it)
-                emitter.onSuccess(it)
-            }, {
-                allPromotions.clear()
-                emitter.onError(it)
-            })
-        }
+        return allPromotionsCache!!
     }
 
     override fun findBurgerById(id: Int): Single<Burger> {
-        if (burgerById.get(id) != null) {
-            return create { e -> e.onSuccess(burgerById.get(id).clone()) }
+        if (burgersByIdCache[id] == null) {
+            burgersByIdCache.put(id, child.findBurgerById(id).cache())
         }
-        return create { emitter ->
-            child.findBurgerById(id).subscribe({burger ->
-                burgerById.put(id, burger.clone())
-                emitter.onSuccess(burger)
-            }, {
-                burgerById.remove(id)
-                emitter.onError(it)
-            })
-        }
-
+        return burgersByIdCache[id]
     }
 }

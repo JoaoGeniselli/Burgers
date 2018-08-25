@@ -1,24 +1,20 @@
 package com.jgeniselli.desafio.burgers.promotions
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import com.jgeniselli.desafio.burgers.commons.RequestBundle
+import com.jgeniselli.desafio.burgers.commons.RequestViewModel
 import com.jgeniselli.desafio.burgers.commons.RetrofitFactory
 import com.jgeniselli.desafio.burgers.data.promotions.Promotion
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSource
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSourceCacheProxy
 import com.jgeniselli.desafio.burgers.data.source.BurgersService
 import com.jgeniselli.desafio.burgers.data.source.PromotionsObserverProxy
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.Single
 
-class PromotionsViewModel : ViewModel() {
-
-    val promotions = MutableLiveData<List<Promotion>>()
-    val error = MutableLiveData<String>()
-    val loading = MutableLiveData<Boolean>()
+class PromotionsViewModel : RequestViewModel<List<Promotion>, RequestBundle>() {
 
     private var service: BurgersDataSource? = null
 
-    fun start() {
+    override fun makeRequest(bundle: RequestBundle): Single<List<Promotion>> {
         service ?: apply {
             val api = RetrofitFactory.createAPI()
             service = PromotionsObserverProxy(
@@ -27,11 +23,6 @@ class PromotionsViewModel : ViewModel() {
                     )
             )
         }
-
-        service!!.findAllPromotions()
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { loading.value = true }
-                .doAfterTerminate { loading.value = false }
-                .subscribe({ promotions.value = it }, { error.value = it.message })
+        return service!!.findAllPromotions()
     }
 }
