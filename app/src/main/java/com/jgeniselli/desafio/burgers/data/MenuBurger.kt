@@ -5,9 +5,9 @@ import com.jgeniselli.desafio.burgers.data.promotions.PromotionIdentifierListene
 import java.util.Collections.unmodifiableList
 
 interface IBurger {
-    val id: Int
-    val name: String
-    val imageUrl: String
+    fun getId(): Int
+    fun getName(): String
+    fun getImageUrl(): String
     fun addPromotion(promotion: Promotion)
     fun removePromotion(promotion: Promotion)
     fun addIngredient(ingredient: Ingredient, amount: Int)
@@ -20,11 +20,17 @@ interface IBurger {
     fun clone(): IBurger
 }
 
-class MenuBurger(override val id: Int, override val name: String, override val imageUrl: String) : Cloneable, IBurger {
+class MenuBurger(private val _id: Int, private val _name: String, private val _imageUrl: String) : Cloneable, IBurger {
 
     private val ingredients = HashMap<Ingredient, Int>()
     private val promotions = HashSet<Promotion>()
     private val ingredientObservers = HashSet<IngredientChangesListener>()
+
+    override fun getId(): Int = _id
+
+    override fun getName(): String = _name
+
+    override fun getImageUrl(): String = _imageUrl
 
     override fun addPromotion(promotion: Promotion) {
         promotions.add(promotion)
@@ -112,7 +118,7 @@ class MenuBurger(override val id: Int, override val name: String, override val i
     }
 
     override fun clone(): MenuBurger {
-        val burger = MenuBurger(id, name, imageUrl)
+        val burger = MenuBurger(_id, _name, _imageUrl)
         burger.ingredients.putAll(ingredients)
         burger.promotions.addAll(promotions)
         burger.ingredientObservers.addAll(ingredientObservers)

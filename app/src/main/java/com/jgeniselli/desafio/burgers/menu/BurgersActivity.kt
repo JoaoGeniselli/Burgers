@@ -40,7 +40,7 @@ class BurgersActivity : AppCompatActivity() {
 
     private fun redirectToSelectedItem(position: Int) {
         val intent = Intent(this, DetailsActivity::class.java)
-        val id = viewModel.result.value?.get(position)?.id ?: 0
+        val id = viewModel.result.value?.get(position)?.getId() ?: 0
         intent.putExtra(DetailsActivity.EXTRA_BURGER_ID, id)
         startActivity(intent)
         viewModel.selectedPosition.value = null

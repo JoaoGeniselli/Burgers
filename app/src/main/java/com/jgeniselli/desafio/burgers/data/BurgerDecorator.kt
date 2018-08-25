@@ -1,4 +1,7 @@
 package com.jgeniselli.desafio.burgers.data
 
-class BurgerDecorator {
+import com.jgeniselli.desafio.burgers.data.promotions.Promotion
+
+class BurgerDecorator(private val child: IBurger) {
+
 }

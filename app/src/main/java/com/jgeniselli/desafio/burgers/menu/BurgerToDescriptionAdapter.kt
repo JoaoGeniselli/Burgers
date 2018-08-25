@@ -6,11 +6,11 @@ import java.util.*
 
 class BurgerToDescriptionAdapter(private val burger: IBurger) : BurgerDescription {
 
-    override fun getBurgerId() = burger.id
+    override fun getBurgerId() = burger.getId()
 
-    override fun getName(): String = burger.name
+    override fun getName(): String = burger.getName()
 
-    override fun getImageUrl(): String = burger.imageUrl
+    override fun getImageUrl(): String = burger.getImageUrl()
 
     override fun getIngredientNames(): String {
         val names = ArrayList<String>()
