@@ -13,4 +13,10 @@
     <string name="available_ingredients">Ingredientes Disponíveis</string>
     <string name="done">Concluir</string>
     <string name="shoppintg_cart">Carrinho</string>
+    <string name="empty_promotions">Não há promoções disponíveis</string>
+    <string name="default_service_message">Ocorreu um erro ao buscar os dados</string>
+    <string name="default_menu_error">Ocorreu um erro ao buscar dados do cardápio</string>
+    <string name="default_details_error">Ocorreu um erro ao buscar as informações do lanche</string>
+    <string name="default_ingredients_error">Ocorreu um erro ao buscar os ingredientes</string>
+    <string name="default_promotions_message">Ocorreu um erro ao buscar as promoções</string>
 </resources>

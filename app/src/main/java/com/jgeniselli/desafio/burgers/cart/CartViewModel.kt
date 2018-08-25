@@ -1,5 +1,6 @@
 package com.jgeniselli.desafio.burgers.cart
 
+import android.app.Application
 import com.jgeniselli.desafio.burgers.commons.Injection
 import com.jgeniselli.desafio.burgers.commons.RequestBundle
 import com.jgeniselli.desafio.burgers.commons.RequestViewModel
@@ -7,7 +8,7 @@ import com.jgeniselli.desafio.burgers.data.order.Order
 import com.jgeniselli.desafio.burgers.data.source.BurgersDataSource
 import io.reactivex.Single
 
-class CartViewModel : RequestViewModel<List<Order>, RequestBundle>() {
+class CartViewModel(application: Application) : RequestViewModel<List<Order>, RequestBundle>(application) {
 
     private var service: BurgersDataSource? = null
 

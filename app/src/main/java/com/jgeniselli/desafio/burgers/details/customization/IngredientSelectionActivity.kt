@@ -11,6 +11,7 @@ import android.support.v7.widget.DividerItemDecoration.VERTICAL
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.jgeniselli.desafio.burgers.R
 import kotlinx.android.synthetic.main.activity_ingredient_selection.*
 
@@ -44,8 +45,13 @@ class IngredientSelectionActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         viewModel.result.observe(this, Observer {
-            if (it != null)
+            if (it != null) {
+                empty_view.visibility = when {
+                    it.isEmpty() -> View.VISIBLE
+                    else -> View.GONE
+                }
                 adapter.updateContent(it)
+            }
         })
         viewModel.finishForResult.observe(this, Observer {
             it?.getContentIfNotHandled()?.let {

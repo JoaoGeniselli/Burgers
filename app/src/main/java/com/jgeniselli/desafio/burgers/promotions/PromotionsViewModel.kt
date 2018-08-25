@@ -1,5 +1,7 @@
 package com.jgeniselli.desafio.burgers.promotions
 
+import android.app.Application
+import com.jgeniselli.desafio.burgers.R
 import com.jgeniselli.desafio.burgers.commons.RequestBundle
 import com.jgeniselli.desafio.burgers.commons.RequestViewModel
 import com.jgeniselli.desafio.burgers.commons.RetrofitFactory
@@ -9,7 +11,8 @@ import com.jgeniselli.desafio.burgers.data.source.BurgersDataSourceCacheProxy
 import com.jgeniselli.desafio.burgers.data.source.BurgersService
 import io.reactivex.Single
 
-class PromotionsViewModel : RequestViewModel<List<Promotion>, RequestBundle>() {
+class PromotionsViewModel(application: Application) :
+        RequestViewModel<List<Promotion>, RequestBundle>(application) {
 
     private var service: BurgersDataSource? = null
 
@@ -20,4 +23,6 @@ class PromotionsViewModel : RequestViewModel<List<Promotion>, RequestBundle>() {
         }
         return service!!.findAllPromotions()
     }
+
+    override fun defaultErrorMessage(): Int = R.string.default_promotions_message
 }

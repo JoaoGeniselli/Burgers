@@ -52,7 +52,13 @@ class PromotionsFragment : Fragment() {
         viewModel.result.observe(this, Observer {
             if (it != null) {
                 adapter.clear()
-                adapter.addAll(it)
+                when {
+                    it.isEmpty() -> empty_view.visibility = View.VISIBLE
+                    else -> {
+                        adapter.addAll(it)
+                        empty_view.visibility = View.GONE
+                    }
+                }
             }
         })
     }

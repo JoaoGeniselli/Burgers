@@ -1,12 +1,15 @@
 package com.jgeniselli.desafio.burgers.commons
 
+import android.app.Application
+import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import com.jgeniselli.desafio.burgers.R
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-abstract class RequestViewModel<T, B : RequestBundle> : ViewModel() {
+abstract class RequestViewModel<T, B : RequestBundle>(
+        application: Application) : AndroidViewModel(application) {
 
     private val _result = MutableLiveData<T>()
     private val _error = MutableLiveData<Event<String?>>()
@@ -29,7 +32,10 @@ abstract class RequestViewModel<T, B : RequestBundle> : ViewModel() {
         if (locksResult() && result.value != null) return
         val single = makeRequest(bundle)
         attachThreadAndLoading(single)
-                .subscribe({ _result.value = it }, { _error.value = Event(it.message) })
+                .subscribe(
+                        { _result.value = it },
+                        { _error.value = Event(getString(defaultErrorMessage())) }
+                )
     }
 
     fun notifyResult() {
@@ -45,10 +51,10 @@ abstract class RequestViewModel<T, B : RequestBundle> : ViewModel() {
 
     open fun locksResult(): Boolean = false
 
-    override fun onCleared() {
-//        DisposableManager.dispose()
-        super.onCleared()
-    }
+    open fun defaultErrorMessage(): Int = R.string.default_service_message
+
+    private fun getString(resource: Int): String? =
+            getApplication<Application>().getString(resource)
 
 }
 

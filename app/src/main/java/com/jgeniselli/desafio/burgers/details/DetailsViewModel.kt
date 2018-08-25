@@ -1,6 +1,8 @@
 package com.jgeniselli.desafio.burgers.details
 
+import android.app.Application
 import android.arch.lifecycle.MutableLiveData
+import com.jgeniselli.desafio.burgers.R
 import com.jgeniselli.desafio.burgers.commons.Event
 import com.jgeniselli.desafio.burgers.commons.RequestBundle
 import com.jgeniselli.desafio.burgers.commons.RequestViewModel
@@ -12,7 +14,7 @@ import com.jgeniselli.desafio.burgers.data.source.BurgersDataSourceCacheProxy
 import com.jgeniselli.desafio.burgers.data.source.BurgersService
 import io.reactivex.Single
 
-class DetailsViewModel : RequestViewModel<CustomBurger, IdRequestBundle>() {
+class DetailsViewModel(application: Application) : RequestViewModel<CustomBurger, IdRequestBundle>(application) {
 
     val successAndFinish = MutableLiveData<Event<String>>()
     private var service: BurgersDataSource? = null
@@ -68,6 +70,10 @@ class DetailsViewModel : RequestViewModel<CustomBurger, IdRequestBundle>() {
             }
         }
         notifyResult()
+    }
+
+    override fun defaultErrorMessage(): Int {
+        return R.string.default_details_error
     }
 }
 

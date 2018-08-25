@@ -1,6 +1,8 @@
 package com.jgeniselli.desafio.burgers.details.customization
 
+import android.app.Application
 import android.arch.lifecycle.MutableLiveData
+import com.jgeniselli.desafio.burgers.R
 import com.jgeniselli.desafio.burgers.commons.Event
 import com.jgeniselli.desafio.burgers.commons.RequestViewModel
 import com.jgeniselli.desafio.burgers.commons.RetrofitFactory
@@ -13,7 +15,8 @@ import io.reactivex.Single
 import java.util.*
 import kotlin.collections.HashMap
 
-class IngredientSelectionViewModel : RequestViewModel<List<IngredientDescription>, AmountsRequestBundle>() {
+class IngredientSelectionViewModel(application: Application) :
+        RequestViewModel<List<IngredientDescription>, AmountsRequestBundle>(application) {
 
     private var service: BurgersDataSource? = null
 
@@ -67,6 +70,8 @@ class IngredientSelectionViewModel : RequestViewModel<List<IngredientDescription
         }
         return updatedAmounts
     }
+
+    override fun defaultErrorMessage(): Int = R.string.default_ingredients_error
 
     override fun locksResult(): Boolean = true
 }
