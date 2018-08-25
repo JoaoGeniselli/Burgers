@@ -1,7 +1,9 @@
 package com.jgeniselli.desafio.burgers.details
 
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
@@ -14,6 +16,10 @@ import kotlinx.android.synthetic.main.activity_ingredient_selection.*
 import kotlin.collections.HashMap
 
 class IngredientSelectionActivity : AppCompatActivity() {
+
+    companion object {
+        const val EXTRA_INGREDIENTS = "INGREDIENTS"
+    }
 
     private val adapter = IngredientsRecyclerViewAdapter()
 
@@ -42,10 +48,22 @@ class IngredientSelectionActivity : AppCompatActivity() {
             if (it != null)
                 adapter.updateContent(it)
         })
+        viewModel.finishForResult.observe(this, Observer {
+            it?.getContentIfNotHandled()?.let {
+                finalize(it)
+            }
+        })
+    }
+
+    private fun finalize(updatedAmounts: HashMap<Int, Int>) {
+        val data = Intent()
+        data.putExtra(EXTRA_INGREDIENTS, updatedAmounts)
+        setResult(Activity.RESULT_OK, data)
+        finish()
     }
 
     private fun getAmountsFromIntent(): HashMap<Int, Int> {
-        val extraAmounts = intent.getSerializableExtra("INGREDIENTS") as HashMap<*, *>?
+        val extraAmounts = intent.getSerializableExtra(EXTRA_INGREDIENTS) as HashMap<*, *>?
         var amounts = HashMap<Int, Int>()
         if (extraAmounts != null) {
             amounts = extraAmounts as HashMap<Int, Int>

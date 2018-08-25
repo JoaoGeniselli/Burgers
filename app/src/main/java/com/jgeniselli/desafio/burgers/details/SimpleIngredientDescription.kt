@@ -5,9 +5,14 @@ import java.text.NumberFormat
 import java.util.*
 
 class SimpleIngredientDescription(val ingredient: Ingredient, private var amount: Int) : IngredientDescription {
+
+    override fun getIngredientId(): Int = ingredient.id
+
+    override fun getFormattedAmount(): String = amount.toString()
+
     override fun getIngredientName(): String = ingredient.name
 
-    override fun getAmount(): String = amount.toString()
+    override fun getAmount(): Int = amount
 
     override fun setAmount(amount: Int) {
         this.amount = amount

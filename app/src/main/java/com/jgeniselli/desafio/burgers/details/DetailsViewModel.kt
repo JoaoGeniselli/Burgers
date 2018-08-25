@@ -1,7 +1,6 @@
 package com.jgeniselli.desafio.burgers.details
 
 import android.arch.lifecycle.MutableLiveData
-import android.util.SparseArray
 import com.jgeniselli.desafio.burgers.commons.Event
 import com.jgeniselli.desafio.burgers.commons.RequestBundle
 import com.jgeniselli.desafio.burgers.commons.RequestViewModel
@@ -48,6 +47,27 @@ class DetailsViewModel : RequestViewModel<CustomBurger, IdRequestBundle>() {
             intMap[it.key.id] = it.value
         }
         return intMap
+    }
+
+    fun updateBurger(updatedAmounts: HashMap<Int, Int>) {
+        attachThreadAndLoading(service!!.findAllIngredients())
+                .subscribe({
+                    updateBurgerWithIngredients(it, updatedAmounts)
+                }, {
+                    postError(it.message)
+                })
+    }
+
+    private fun updateBurgerWithIngredients(
+            ingredients: List<Ingredient>, updatedAmounts: HashMap<Int, Int>) {
+        val burger = result.value!!
+        ingredients.forEach {ingredient ->
+            if (updatedAmounts[ingredient.id] != null) {
+                burger.clearExtras(ingredient)
+                burger.addIngredient(ingredient, updatedAmounts[ingredient.id]!!)
+            }
+        }
+        notifyResult()
     }
 }
 

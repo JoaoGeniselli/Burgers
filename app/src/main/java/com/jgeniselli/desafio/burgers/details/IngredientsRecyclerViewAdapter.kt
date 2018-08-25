@@ -32,7 +32,7 @@ class IngredientsRecyclerViewAdapter : RecyclerView.Adapter<IngredientsRecyclerV
         val item = ingredients[position]
         with(viewHolder) {
             nameView.text = item.getIngredientName()
-            amountView.text = item.getAmount()
+            amountView.text = item.getFormattedAmount()
             priceView.text = item.getIngredientPrice()
             Picasso.get()
                     .load(item.getIngredientImage())
@@ -52,7 +52,7 @@ class IngredientsRecyclerViewAdapter : RecyclerView.Adapter<IngredientsRecyclerV
         if (currentAmount < 99) {
             currentAmount++
             item.setAmount(currentAmount)
-            amountView.text = item.getAmount()
+            amountView.text = item.getFormattedAmount()
         }
     }
 
@@ -61,7 +61,7 @@ class IngredientsRecyclerViewAdapter : RecyclerView.Adapter<IngredientsRecyclerV
         if (currentAmount > 0) {
             currentAmount--
             item.setAmount(currentAmount)
-            amountView.text = item.getAmount()
+            amountView.text = item.getFormattedAmount()
         }
     }
 
@@ -76,8 +76,10 @@ class IngredientsRecyclerViewAdapter : RecyclerView.Adapter<IngredientsRecyclerV
 }
 
 interface IngredientDescription {
+    fun getIngredientId(): Int
     fun getIngredientName(): String
-    fun getAmount(): String
+    fun getAmount(): Int
+    fun getFormattedAmount(): String
     fun setAmount(amount: Int)
     fun getIngredientPrice(): String
     fun getIngredientImage(): String

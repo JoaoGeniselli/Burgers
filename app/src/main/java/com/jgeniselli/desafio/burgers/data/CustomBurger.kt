@@ -41,4 +41,9 @@ open class CustomBurger(b: IBurger) :
     fun getExtraIngredientsForSelection(): Map<Ingredient, Int> {
         return unmodifiableMap(ingredients)
     }
+
+    fun clearExtras(ingredient: Ingredient) {
+        val currentAmount = super.getAmount(ingredient)
+        removeIngredient(ingredient, currentAmount)
+    }
 }

@@ -19,11 +19,11 @@ interface IBurger {
     fun clone(): IBurger
 }
 
-open class MenuBurger(protected val _id: Int, protected val _name: String, protected val _imageUrl: String) : Cloneable, IBurger {
+open class MenuBurger(private val _id: Int, private val _name: String, private val _imageUrl: String) : Cloneable, IBurger {
 
     protected val ingredients = HashMap<Ingredient, Int>()
     protected val promotions = HashSet<Promotion>()
-    protected val ingredientObservers = HashSet<IngredientChangesListener>()
+    private val ingredientObservers = HashSet<IngredientChangesListener>()
 
     override fun getId(): Int = _id
 
